@@ -3,62 +3,69 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Slide Along the Demand Curve</title>
-  <link rel="stylesheet" href="../shared/sketch.css">
-  <style>
-    .layout { display: grid; grid-template-columns: 3fr 2fr; gap: 1.5rem; align-items: start; }
-    svg { width: 100%; height: auto; }
-    @media (max-width: 45rem) { .layout { grid-template-columns: 1fr; } }
-  </style>
+  <title>Demand Curve: Engineering Drawing</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
-    <a href="../index.html">← Gallery</a>
-    <h1>Slide along the demand curve</h1>
-    <p>Drag the price. The dot rides a hand-drawn curve showing how many people still buy.</p>
-    <div class="row" id="modes"></div>
+  <div class="sheet">
+    <div class="head"><a href="../index.html">← Gallery</a><h1>Drawing 14: demand curve, price vs units sold</h1><span>Rev. A</span></div>
 
-    <div class="layout">
-      <svg viewBox="0 0 500 340" role="img" aria-label="Demand curve with a dot that moves as the price changes">
-        <g class="wobbly" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
-          <path d="M50 20V290H470" stroke="#222"/>
-          <path id="curve" stroke="#1f3fa0" stroke-width="6"/>
-          <path id="guides" stroke="#d6342c" stroke-width="3" stroke-dasharray="2 9"/>
-          <circle id="dot" r="10" fill="#fff176" stroke="#d6342c"/>
-        </g>
-        <text x="60" y="14" fill="#222">Price</text>
-        <text x="400" y="320" fill="#222">Units sold</text>
-      </svg>
+    <svg viewBox="0 0 620 370" role="img" aria-label="Demand curve with live dimension lines for price and units sold">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#fff"/></marker>
+      </defs>
+      <path class="line" d="M90 30V310H590"/>
+      <g class="line" id="ticks"></g>
+      <path class="curve" id="curve"/>
+      <path class="thin" id="extV"/><path class="thin" id="extH"/>
+      <path class="line" id="dimH" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <path class="line" id="dimV" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <text id="txtH" text-anchor="middle"></text>
+      <text id="txtV" text-anchor="middle"></text>
+      <g id="pt"><circle class="line" r="7"/><path class="line" d="M-14 0H14M0-14V14"/></g>
+      <text x="96" y="24">Price</text><text x="540" y="304">Units sold</text>
+    </svg>
 
-      <div>
-        <div class="note blue">
-          <p class="big" id="price"></p>
-          <input id="slider" type="range" step=".1">
-          <p id="reading"></p>
-        </div>
-        <div class="note red"><b id="shape"></b><p>The <u>steeper</u> the curve, the less buyers react (inelastic). The <u>flatter</u>, the more (elastic).</p></div>
-      </div>
+    <aside class="notes">
+      <h2>Notes</h2>
+      <ol>
+      <li>Demand falls as price rises.</li>
+      <li>Steep curve: inelastic, buyers barely react. Flat curve: elastic, buyers react a lot.</li>
+      <li id="shape"></li>
+      <li>Before changing a price ask: what would my customers do instead?</li>
+      </ol>
+    </aside>
+
+    <div class="titleblock">
+      <div><small>Item</small><div id="modes"></div></div>
+      <div><small>Price (adjust)</small><b id="price"></b></div>
+      <div><small>Slider</small><input id="slider" type="range" step=".1" aria-label="Price"></div>
+      <div><small>Result</small><b id="reading"></b></div>
     </div>
-  </main>
+  </div>
 
   <script src="../shared/sketch.js"></script>
   <script>
     const modes = [PRODUCTS.petrol, PRODUCTS.cake];
-    let current = modes[0];
-    const toX = units => 50 + units * 4.2;
-    let lo, hi;
-    const toY = price => 290 - (price - lo) / (hi - lo) * 270;
+    let current = modes[0], lo, hi;
+    const X0 = 90, Y_LO = 310, Y_HI = 30;
+    const toX = units => X0 + units * 5;
+    const toY = price => Y_LO - (price - lo) / (hi - lo) * (Y_LO - Y_HI);
+    const set = (id, attrs) => Object.entries(attrs).forEach(([k, v]) => $(id).setAttribute(k, v));
 
     $("modes").innerHTML = modes.map((m, i) => `<button class="btn" data-i="${i}">${m.name}</button>`).join("");
 
-    // Redraw the curve and slider range for the chosen product.
     function setProduct(x) {
       current = x;
       lo = x.p0 * .4; hi = x.p0 * 2.2;
-      $("curve").setAttribute("d", Array.from({ length: 41 }, (_, i) => {
+      set("curve", { d: Array.from({ length: 41 }, (_, i) => {
         const price = lo + (hi - lo) * i / 40;
         return `${i ? "L" : "M"}${toX(demand(x, price))} ${toY(price)}`;
-      }).join(""));
+      }).join("") });
+      const priceTicks = [0, 1, 2, 3, 4].map(i => lo + (hi - lo) * i / 4);
+      $("ticks").innerHTML =
+        priceTicks.map(p => `<path d="M${X0 - 6} ${toY(p)}H${X0}"/><text x="${X0 - 10}" y="${toY(p) + 4}" text-anchor="end">${money(p)}</text>`).join("") +
+        [0, 25, 50, 75, 100].map(u => `<path d="M${toX(u)} 310v6"/><text x="${toX(u)}" y="328" text-anchor="middle">${u}</text>`).join("");
       Object.assign($("slider"), { min: lo, max: hi, value: x.p0 });
       [...$("modes").children].forEach((b, i) => b.classList.toggle("on", modes[i] === x));
       $("shape").textContent = x.blurb;
@@ -66,13 +73,19 @@
     }
 
     function render() {
-      const price = +$("slider").value;
+      const price = +$("slider").value, units = sold(current, price);
       const x = toX(demand(current, price)), y = toY(price);
-      $("dot").setAttribute("cx", x);
-      $("dot").setAttribute("cy", y);
-      $("guides").setAttribute("d", `M50 ${y}H${x}V290`);
+      $("pt").setAttribute("transform", `translate(${x} ${y})`);
+      set("extV", { d: `M${x} ${y}V345` });
+      set("extH", { d: `M${x} ${y}H30` });
+      set("dimH", { d: `M${X0} 340H${x}` });
+      set("dimV", { d: `M30 ${Y_LO}V${y}` });
+      set("txtH", { x: (X0 + x) / 2, y: 358 });
+      set("txtV", { transform: `translate(20 ${(Y_LO + y) / 2}) rotate(-90)` });
+      $("txtH").textContent = `${units} units`;
+      $("txtV").textContent = money(price);
       $("price").textContent = money(price);
-      $("reading").textContent = `${sold(current, price)} of 100 possible buyers stay. Revenue: ${money(price * sold(current, price))}.`;
+      $("reading").textContent = `Revenue ${money(price * units)}`;
     }
 
     $("modes").addEventListener("click", e => { if (e.target.dataset.i) setProduct(modes[e.target.dataset.i]); });
