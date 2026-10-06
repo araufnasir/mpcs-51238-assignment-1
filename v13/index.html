@@ -3,32 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Whiteboard Lemonade Stand</title>
-  <link rel="stylesheet" href="../shared/sketch.css">
+  <title>Lemonade Tycoon: 8-bit</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
+  <main class="cabinet">
     <a href="../index.html">← Gallery</a>
-    <h1>Run the lemonade stand</h1>
-    <p>You set the price. The crowd decides what happens. Each cup costs you $0.30. Chase the best possible profit.</p>
+    <h1>Lemonade<br>Tycoon</h1>
+    <p class="marquee">Insert coin · set the price · keep the crowd</p>
 
-    <div class="row" id="modes"></div>
+    <div class="hud">
+      <div>Score<b id="profit"></b></div>
+      <div>Hi-score<b id="hi"></b></div>
+      <div>Cups<b id="cups"></b></div>
+      <div>Revenue<b id="revenue"></b></div>
+    </div>
 
-    <div class="note blue">
-      <p class="big" id="price"></p>
-      <input id="slider" type="range" min=".3" max="5" step=".1" value="1">
+    <div class="field">
       <div class="crowd" id="crowd"></div>
-      <div class="stats">
-        <div>Cups sold<b id="cups"></b></div>
-        <div>Revenue<b id="revenue"></b></div>
-        <div>Profit<b id="profit"></b></div>
-      </div>
+      <div class="ground"></div>
+    </div>
+
+    <div class="panel">
+      <p id="price"></p>
+      <input id="slider" type="range" min=".3" max="5" step=".1" value="1" aria-label="Price">
+      <div class="levels" id="modes"></div>
+      <p>You vs hi-score</p>
+      <div class="meter"><i id="meter"></i></div>
       <p id="best"></p>
     </div>
 
-    <div class="note green">
-      <b id="tip"></b>
-      <p>How strongly buyers react to price is called <u>price elasticity</u>. Little reaction = inelastic. Big reaction = elastic.</p>
+    <div class="dialog">
+      <p id="tip"></p>
+      <p>How strongly buyers react to price is called price elasticity. Little reaction: inelastic. Big reaction: elastic.</p>
+      <p>Each cup costs $0.30. Beat the hi-score by finding the best price.</p>
     </div>
   </main>
 
@@ -37,18 +45,21 @@
     const modes = [PRODUCTS.festival, PRODUCTS.rival];
     let current = modes[0];
 
-    $("modes").innerHTML = modes.map((m, i) => `<button class="btn" data-i="${i}">${m.name}</button>`).join("");
+    $("modes").innerHTML = modes.map((m, i) => `<button class="lvl" data-i="${i}">${i + 1}P ${m.name}</button>`).join("");
 
     function render() {
       const price = +$("slider").value;
-      const profit = profitAt(current, price);
-      const top = bestPrice(current, .3, 5);
-      $("price").textContent = `${money(price)} a cup`;
-      $("crowd").innerHTML = crowd(sold(current, price), sold(current, current.p0));
-      $("cups").textContent = sold(current, price);
-      $("revenue").textContent = money(price * sold(current, price));
+      const cups = sold(current, price), profit = profitAt(current, price);
+      const top = bestPrice(current, .3, 5), topProfit = profitAt(current, top);
+      const score = Math.max(0, Math.round(profit / topProfit * 100));
+      $("price").textContent = `Price ${money(price)}`;
+      $("crowd").innerHTML = crowd(cups, sold(current, current.p0), "▮");
+      $("cups").textContent = cups;
+      $("revenue").textContent = money(price * cups);
       $("profit").textContent = money(profit);
-      $("best").textContent = `Best possible: ${money(profitAt(current, top))} at ${money(top)}. You're at ${Math.max(0, Math.round(profit / profitAt(current, top) * 100))}%.`;
+      $("hi").textContent = money(topProfit);
+      $("meter").style.width = `${score}%`;
+      $("best").textContent = `Best price ${money(top)}. You are at ${score}%.`;
       $("tip").textContent = current.blurb;
       [...$("modes").children].forEach((b, i) => b.classList.toggle("on", modes[i] === current));
     }

@@ -20,9 +20,9 @@ const bestPrice = (x, lo, hi) => {
   return best;
 };
 
-// One 🙂 per 4 buyers; `lost` faded faces show who left compared with `before`.
-const crowd = (now, before = now) => now < 2 ? "🦗 Nobody came." :
-  "🙂".repeat(Math.round(now / 4)) + `<span class="gone">${"🙂".repeat(Math.max(0, Math.round((before - now) / 4)))}</span>`;
+// One `face` per 4 buyers; faded ones (.gone) show who left compared with `before`.
+const crowd = (now, before = now, face = "🙂") => now < 2 ? "🦗 Nobody came." :
+  face.repeat(Math.round(now / 4)) + `<span class="gone">${face.repeat(Math.max(0, Math.round((before - now) / 4)))}</span>`;
 
 // Hand-drawn wobble used by `.wobbly` (see sketch.css).
 document.body.insertAdjacentHTML("afterbegin",
