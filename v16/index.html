@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Story About a Lemonade Price</title>
+  <link rel="stylesheet" href="../shared/sketch.css">
+</head>
+<body>
+  <main>
+    <a href="../index.html">← Gallery</a>
+    <h1>A lemonade story in two chapters</h1>
+    <div class="note blue" id="stage"></div>
+  </main>
+
+  <script src="../shared/sketch.js"></script>
+  <script>
+    const chapters = [
+      { x: PRODUCTS.festival, title: "Chapter 1: The festival", text: "It's a hot day at a music festival and yours is the only lemonade stand. Each cup costs you $0.30 to make. What do you charge?" },
+      { x: PRODUCTS.rival, title: "Chapter 2: A rival arrives", text: "Next day, another stand opens ten steps away, selling the same lemonade. Same cost. What do you charge now?" },
+    ];
+    let step = 0, phase = "set", price = 1;
+    const results = [];
+
+    function view() {
+      if (step === chapters.length) return summary();
+      const { x, title, text } = chapters[step];
+      const header = `<b>${title}</b>`;
+      if (phase === "set") {
+        return `${header}<p>${text}</p>
+          <p class="big" id="price">${money(price)} a cup</p>
+          <input id="slider" type="range" min=".3" max="5" step=".1" value="${price}">
+          <button class="btn" id="go">Open for business</button>`;
+      }
+      const cups = sold(x, price), profit = profitAt(x, price), top = bestPrice(x, .3, 5);
+      return `${header}<div class="crowd">${crowd(cups, sold(x, x.p0))}</div>
+        <div class="stats"><div>Cups sold<b>${cups}</b></div><div>Profit<b>${money(profit)}</b></div></div>
+        <p>${x.blurb} The best price was about ${money(top)}, which would have made ${money(profitAt(x, top))}.</p>
+        <button class="btn" id="next">${step + 1 < chapters.length ? "Next chapter →" : "What did that show? →"}</button>`;
+    }
+
+    function summary() {
+      const rows = results.map((r, i) => `<p>${chapters[i].title}: you charged ${money(r.price)} and made ${money(r.profit)}.</p>`).join("");
+      return `<b>What just happened</b>${rows}
+        <p>Same lemonade, same cost. The only thing that changed was how easily buyers could go elsewhere. With no rival, buyers barely react to price: <u>inelastic</u>, so a higher price pays. With a rival, they react strongly: <u>elastic</u>, so a high price empties your queue.</p>
+        <p>Before changing a price, ask: "If this cost more, what would my customers do instead?"</p>
+        <button class="btn" id="again">Play again</button>`;
+    }
+
+    function render() { $("stage").innerHTML = view(); }
+
+    $("stage").addEventListener("input", e => { price = +e.target.value; $("price").textContent = `${money(price)} a cup`; });
+    $("stage").addEventListener("click", e => {
+      if (e.target.id === "go") { results.push({ price, profit: profitAt(chapters[step].x, price) }); phase = "result"; }
+      else if (e.target.id === "next") { step++; phase = "set"; price = 1; }
+      else if (e.target.id === "again") { step = 0; phase = "set"; price = 1; results.length = 0; }
+      else return;
+      render();
+    });
+    render();
+  </script>
+</body>
+</html>
