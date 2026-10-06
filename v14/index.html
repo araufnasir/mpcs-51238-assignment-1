@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Slide Along the Demand Curve</title>
+  <link rel="stylesheet" href="../shared/sketch.css">
+  <style>
+    .layout { display: grid; grid-template-columns: 3fr 2fr; gap: 1.5rem; align-items: start; }
+    svg { width: 100%; height: auto; }
+    @media (max-width: 45rem) { .layout { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="../index.html">← Gallery</a>
+    <h1>Slide along the demand curve</h1>
+    <p>Drag the price. The dot rides a hand-drawn curve showing how many people still buy.</p>
+    <div class="row" id="modes"></div>
+
+    <div class="layout">
+      <svg viewBox="0 0 500 340" role="img" aria-label="Demand curve with a dot that moves as the price changes">
+        <g class="wobbly" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+          <path d="M50 20V290H470" stroke="#222"/>
+          <path id="curve" stroke="#1f3fa0" stroke-width="6"/>
+          <path id="guides" stroke="#d6342c" stroke-width="3" stroke-dasharray="2 9"/>
+          <circle id="dot" r="10" fill="#fff176" stroke="#d6342c"/>
+        </g>
+        <text x="60" y="14" fill="#222">Price</text>
+        <text x="400" y="320" fill="#222">Units sold</text>
+      </svg>
+
+      <div>
+        <div class="note blue">
+          <p class="big" id="price"></p>
+          <input id="slider" type="range" step=".1">
+          <p id="reading"></p>
+        </div>
+        <div class="note red"><b id="shape"></b><p>The <u>steeper</u> the curve, the less buyers react (inelastic). The <u>flatter</u>, the more (elastic).</p></div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../shared/sketch.js"></script>
+  <script>
+    const modes = [PRODUCTS.petrol, PRODUCTS.cake];
+    let current = modes[0];
+    const toX = units => 50 + units * 4.2;
+    let lo, hi;
+    const toY = price => 290 - (price - lo) / (hi - lo) * 270;
+
+    $("modes").innerHTML = modes.map((m, i) => `<button class="btn" data-i="${i}">${m.name}</button>`).join("");
+
+    // Redraw the curve and slider range for the chosen product.
+    function setProduct(x) {
+      current = x;
+      lo = x.p0 * .4; hi = x.p0 * 2.2;
+      $("curve").setAttribute("d", Array.from({ length: 41 }, (_, i) => {
+        const price = lo + (hi - lo) * i / 40;
+        return `${i ? "L" : "M"}${toX(demand(x, price))} ${toY(price)}`;
+      }).join(""));
+      Object.assign($("slider"), { min: lo, max: hi, value: x.p0 });
+      [...$("modes").children].forEach((b, i) => b.classList.toggle("on", modes[i] === x));
+      $("shape").textContent = x.blurb;
+      render();
+    }
+
+    function render() {
+      const price = +$("slider").value;
+      const x = toX(demand(current, price)), y = toY(price);
+      $("dot").setAttribute("cx", x);
+      $("dot").setAttribute("cy", y);
+      $("guides").setAttribute("d", `M50 ${y}H${x}V290`);
+      $("price").textContent = money(price);
+      $("reading").textContent = `${sold(current, price)} of 100 possible buyers stay. Revenue: ${money(price * sold(current, price))}.`;
+    }
+
+    $("modes").addEventListener("click", e => { if (e.target.dataset.i) setProduct(modes[e.target.dataset.i]); });
+    $("slider").addEventListener("input", render);
+    setProduct(current);
+  </script>
+</body>
+</html>
