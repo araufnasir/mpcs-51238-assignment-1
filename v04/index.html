@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Price of Everything: a feature</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #e8e2d9; color: #2b2622; font: 1.05rem/1.7 "Helvetica Neue", Arial, sans-serif; }
+    .spread { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; max-width: 80rem; margin: 0 auto; }
+    .left { background: #d9472b; color: #fff; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+    .left a { color: #fff; font-size: .85rem; }
+    .big { position: absolute; right: -2rem; top: 8%; font: italic 900 30rem/1 Georgia, serif; opacity: .18; }
+    .kicker { text-transform: uppercase; letter-spacing: .25em; font-size: .8rem; }
+    h1 { font: italic 400 clamp(3rem, 6vw, 5.5rem)/1 Georgia, serif; margin: .5rem 0; position: relative; }
+    .standfirst { font-size: 1.2rem; max-width: 24rem; position: relative; }
+    .right { background: #fbf8f3; padding: 3rem 2.5rem; }
+    .text { columns: 2 14rem; column-gap: 2rem; }
+    .text p { margin: 0 0 1rem; }
+    .text p:first-child::first-letter { float: left; font: 400 5rem/.75 Georgia, serif; padding: .3rem .5rem 0 0; color: #d9472b; }
+    h2 { font: 700 .8rem sans-serif; text-transform: uppercase; letter-spacing: .2em; color: #d9472b; margin: 1.5rem 0 .25rem; break-after: avoid; }
+    blockquote { margin: 1rem 0; padding: 0; font: italic 1.6rem/1.25 Georgia, serif; color: #d9472b; break-inside: avoid; }
+    .bars { display: flex; gap: 1rem; margin: 1.5rem 0; break-inside: avoid; }
+    .bar { flex: 1; font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; }
+    .bar i { display: block; background: #2b2622; margin-bottom: .3rem; }
+    .bar.hot i { background: #d9472b; }
+    @media (max-width: 50rem) { .spread { grid-template-columns: 1fr; } .left { min-height: 70vh; } }
+  </style>
+</head>
+<body>
+  <div class="spread">
+    <div class="left">
+      <a href="../index.html">← Gallery</a>
+      <div>
+        <div class="kicker">The Feature</div>
+        <h1>The Price of Everything</h1>
+        <p class="standfirst">Why a 10% rise empties one shop and barely dents another.</p>
+      </div>
+      <span class="big">?</span>
+    </div>
+
+    <div class="right">
+      <div class="text">
+        <p>Imagine two shops on the same street. One sells fancy cupcakes, the other sells petrol. Both raise prices by ten percent on the same Monday. By Friday the cupcake counter is quiet. The petrol queue looks exactly as it did.</p>
+        <p>The gap between them is what economists call <strong>price elasticity</strong>: a measure of how strongly buyers react to a change in price.</p>
+
+        <blockquote>“Would my customers leave, or just complain?”</blockquote>
+
+        <h2>Two kinds of buyer</h2>
+        <p><strong>Elastic</strong> demand means people react a lot. They can skip the cupcake, buy it next week, or buy a cookie instead. <strong>Inelastic</strong> demand means they react little. Nobody skips the commute because petrol went up a few pence.</p>
+
+        <div class="bars">
+          <div class="bar hot"><i style="height:9rem"></i>Cupcakes, sales fall a lot</div>
+          <div class="bar"><i style="height:1rem"></i>Petrol, sales barely move</div>
+        </div>
+
+        <h2>What decides it</h2>
+        <p>Three ingredients: <strong>substitutes</strong> (is there an easy alternative?), <strong>necessity</strong> (can you really do without?), and <strong>budget share</strong> (is it a large part of what you spend?).</p>
+
+        <h2>Why it matters</h2>
+        <p>Raise the price of something elastic and you may earn less overall. Raise the price of something inelastic and you may earn more. Knowing which one you sell is the difference between a smart price rise and an expensive mistake.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
