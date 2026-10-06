@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lemonade Stand: Set the Price</title>
+  <style>
+    body { margin: 0; font: 1.05rem/1.5 "Trebuchet MS", sans-serif; background: linear-gradient(#8fd4ff 0 45%, #9be37a 45%); min-height: 100vh; color: #1d3b2a; }
+    main { max-width: 44rem; margin: 0 auto; padding: 1rem 1rem 3rem; }
+    a { color: #1d3b2a; }
+    h1 { font-size: clamp(2rem, 6vw, 3rem); margin: .5rem 0; }
+    .stand { background: #fff6b0; border: 4px solid #e6b800; border-radius: 1rem; padding: 1rem 1.25rem; margin: 1rem 0; box-shadow: 0 6px 0 #e6b800; }
+    .modes { display: flex; gap: .5rem; flex-wrap: wrap; }
+    .modes label { flex: 1; background: #fff; border: 3px solid #1d3b2a; border-radius: .75rem; padding: .5rem; cursor: pointer; }
+    .modes label:has(input:checked) { background: #ffd23f; }
+    .price { font-size: 3rem; font-weight: 900; margin: 0; }
+    input[type=range] { width: 100%; accent-color: #e6b800; }
+    .crowd { min-height: 4.5rem; font-size: 1.5rem; line-height: 1.2; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; text-align: center; }
+    .stats div { background: #fff; border-radius: .75rem; padding: .5rem; }
+    .stats b { display: block; font-size: 1.5rem; }
+    #verdict { font-weight: 700; }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="../index.html">← Gallery</a>
+    <h1>🍋 Run the Lemonade Stand</h1>
+    <p>You set the price. The crowd decides what happens. Try to make the most profit. Each cup costs you $0.30.</p>
+
+    <div class="stand">
+      <p><b>Where is your stand?</b></p>
+      <div class="modes" id="modes"></div>
+    </div>
+
+    <div class="stand">
+      <p class="price" id="price"></p>
+      <input id="slider" type="range" min="0.3" max="5" step="0.1" value="1">
+      <div class="crowd" id="crowd"></div>
+      <div class="stats">
+        <div>Cups sold<b id="cups"></b></div>
+        <div>Revenue<b id="revenue"></b></div>
+        <div>Profit<b id="profit"></b></div>
+      </div>
+      <p id="verdict"></p>
+    </div>
+
+    <div class="stand">
+      <p><b>What's going on?</b> How much buyers react to price is called <b>price elasticity</b>. At a festival with no rivals, people are thirsty and have nowhere else to go, so demand is <b>inelastic</b>: charge more. Next to a rival stand, anyone can walk ten steps and buy cheaper, so demand is <b>elastic</b>: raising your price empties your queue.</p>
+    </div>
+  </main>
+
+  <script>
+    const COST = 0.3;
+    // Cups sold at $1 and how fast buyers leave as price rises (elasticity).
+    const settings = [
+      { name: "🎪 Hot festival, only stand", base: 60, e: 0.5, tip: "Few alternatives and lots of thirst: buyers stay, so higher prices pay off." },
+      { name: "🍋 Rival stand next door", base: 60, e: 2.5, tip: "Buyers can easily switch: raising the price sends them to your rival." },
+    ];
+    let current = settings[0];
+    const $ = id => document.getElementById(id);
+
+    $("modes").innerHTML = settings.map((s, i) =>
+      `<label><input type="radio" name="mode" value="${i}" ${i ? "" : "checked"} hidden> ${s.name}</label>`).join("");
+
+    function render() {
+      const p = +$("slider").value;
+      const cups = Math.round(Math.min(100, current.base * p ** -current.e));
+      const revenue = p * cups;
+      const profit = (p - COST) * cups;
+      $("price").textContent = `$${p.toFixed(2)} per cup`;
+      $("crowd").textContent = "🙂".repeat(Math.ceil(cups / 4)) || "🦗 Nobody came.";
+      $("cups").textContent = cups;
+      $("revenue").textContent = `$${revenue.toFixed(2)}`;
+      $("profit").textContent = `$${profit.toFixed(2)}`;
+      $("verdict").textContent = current.tip;
+    }
+
+    $("modes").addEventListener("change", e => { current = settings[e.target.value]; render(); });
+    $("slider").addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>
