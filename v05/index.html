@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Receipt: What a Price Change Costs</title>
+  <style>
+    body { margin: 0; padding: 1.5rem 1rem 4rem; background: #8a8f98; font: .95rem/1.5 "Courier New", monospace; color: #222; }
+    .back { display: block; width: fit-content; margin: 0 auto 1rem; color: #fff; }
+    .receipt { width: min(24rem, 100%); margin: 0 auto; background: #f7f6f1; padding: 1.5rem 1.25rem 3rem; box-shadow: 0 6px 20px #0006;
+      --zig: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / 14px 100%;
+      mask: var(--zig); -webkit-mask: var(--zig); }
+    h1 { text-align: center; font-size: 1.3rem; margin: 0; text-transform: uppercase; }
+    .center { text-align: center; }
+    hr { border: 0; border-top: 2px dashed #222; margin: .9rem 0; }
+    .row { display: flex; justify-content: space-between; gap: 1rem; font-weight: 700; }
+    .note { margin: .1rem 0 .8rem; font-size: .85rem; color: #444; }
+    .total { font-size: 1.2rem; }
+    .barcode { height: 3rem; margin-top: 1rem; background: repeating-linear-gradient(90deg, #222 0 2px, #0000 2px 4px, #222 4px 5px, #0000 5px 9px, #222 9px 12px, #0000 12px 14px); }
+  </style>
+</head>
+<body>
+  <a class="back" href="../index.html">← Gallery</a>
+  <main class="receipt">
+    <h1>Elasticity &amp; Co.</h1>
+    <p class="center">Your plain-language receipt<br>"What does a price change do?"</p>
+    <hr>
+
+    <div class="row"><span>1 PRICE RISE</span><span>+10%</span></div>
+    <p class="note">You raise a price by one tenth. Simple.</p>
+
+    <div class="row"><span>1 BUYER REACTION</span><span>???</span></div>
+    <p class="note">Demand always reacts: higher price, fewer buyers. How many fewer is the real question.</p>
+
+    <div class="row"><span>1 ELASTICITY</span><span>FREE</span></div>
+    <p class="note">The name for how strongly buyers react. Big reaction: "elastic". Small reaction: "inelastic".</p>
+    <hr>
+
+    <div class="row"><span>PETROL (inelastic)</span><span>-2%</span></div>
+    <p class="note">Sales dip a little. People still need to drive. Income goes UP.</p>
+
+    <div class="row"><span>CAKE (elastic)</span><span>-25%</span></div>
+    <p class="note">Easy to skip or swap. Sales fall faster than price rose. Income goes DOWN.</p>
+    <hr>
+
+    <div class="row"><span>SUBSTITUTES?</span><span>x1</span></div>
+    <p class="note">Alternatives nearby make buyers leave quickly.</p>
+    <div class="row"><span>NECESSITY?</span><span>x1</span></div>
+    <p class="note">Can't do without it? Buyers stay.</p>
+    <div class="row"><span>BIG % OF BUDGET?</span><span>x1</span></div>
+    <p class="note">Large purchases make people shop around.</p>
+    <hr>
+
+    <div class="row total"><span>TOTAL TAKEAWAY</span><span>1 Q</span></div>
+    <p class="note">Before changing a price ask: "If this cost more, what would my customers do instead?"</p>
+    <hr>
+    <p class="center">THANK YOU FOR READING<br>NO REFUNDS ON BAD PRICING</p>
+    <div class="barcode"></div>
+  </main>
+</body>
+</html>
