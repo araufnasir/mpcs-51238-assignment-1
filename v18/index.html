@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Drag the Price</title>
+  <link rel="stylesheet" href="../shared/sketch.css">
+  <style>
+    main { max-width: none; min-height: 100vh; display: flex; flex-direction: column; justify-content: space-between; }
+    .zone { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; min-height: 8rem; }
+    #last { grid-template-columns: 1fr; }
+    .hero { text-align: center; }
+    .hero .big { font-size: clamp(4rem, 16vw, 10rem); }
+    .hero .crowd { font-size: 2rem; }
+    .huge { -webkit-appearance: none; appearance: none; background: none; height: 5rem; }
+    .huge::-webkit-slider-runnable-track { height: 1.2rem; background: #222; border-radius: 1rem; }
+    .huge::-webkit-slider-thumb { -webkit-appearance: none; width: 5rem; height: 5rem; margin-top: -1.9rem; border-radius: 50%; background: #fff176; border: 5px solid #d6342c; }
+    .huge::-moz-range-track { height: 1.2rem; background: #222; border-radius: 1rem; }
+    .huge::-moz-range-thumb { width: 5rem; height: 5rem; border-radius: 50%; background: #fff176; border: 5px solid #d6342c; }
+    .fade { opacity: 0; transform: translateY(.6rem); transition: .6s; }
+    .fade b { display: inline; font-size: inherit; }
+    .fade.on { opacity: 1; transform: none; }
+    @media (max-width: 45rem) { .zone { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div>
+      <a href="../index.html">← Gallery</a>
+      <div class="zone" id="top"></div>
+    </div>
+
+    <div class="hero">
+      <div class="row" id="modes" style="justify-content:center"></div>
+      <p class="big" id="price"></p>
+      <div class="crowd" id="crowd"></div>
+      <input class="huge" id="slider" type="range" aria-label="Price">
+      <p id="revenue"></p>
+    </div>
+
+    <div>
+      <div class="zone" id="bottom"></div>
+      <div class="zone" id="last"></div>
+    </div>
+  </main>
+
+  <script src="../shared/sketch.js"></script>
+  <script>
+    const modes = [PRODUCTS.cake, PRODUCTS.petrol];
+    let current = modes[0];
+    const seen = new Set();
+
+    // Each note appears once its condition has been met, then stays.
+    const notes = [
+      { id: "move", zone: "top", color: "blue", text: "Drag the big dot. Higher price, fewer buyers. Lower price, more.", when: (price, x) => Math.abs(price / x.p0 - 1) > .05 },
+      { id: "name", zone: "top", color: "green", text: "How strongly buyers react has a name: <u>price elasticity</u>.", when: (price, x) => Math.abs(price / x.p0 - 1) > .3 },
+      { id: "fell", zone: "bottom", color: "red", text: "<b>Revenue fell</b> after a rise. Each sale earns more, but so many buyers left that it's worse overall. That's <u>elastic</u>.", when: (price, x, rev, start) => price > x.p0 && rev <= start * .9 },
+      { id: "rose", zone: "bottom", color: "green", text: "<b>Revenue rose</b> after a rise. Buyers barely left, so each sale earns more. That's <u>inelastic</u>.", when: (price, x, rev, start) => price > x.p0 && rev >= start * 1.1 },
+      { id: "why", zone: "last", color: "blue", text: "Why the difference? <b>Substitutes</b> to switch to, <b>need</b> versus want, and <b>share of your budget</b>. Ask: \"If this cost more, what would my customers do instead?\"", when: () => seen.has("fell") && seen.has("rose") },
+    ];
+
+    notes.forEach(n => $(n.zone).insertAdjacentHTML("beforeend", `<div class="note fade ${n.color}" id="n-${n.id}">${n.text}</div>`));
+    $("modes").innerHTML = modes.map((m, i) => `<button class="btn" data-i="${i}">${m.name}</button>`).join("");
+
+    function setProduct(x) {
+      current = x;
+      Object.assign($("slider"), { min: x.p0 * .3, max: x.p0 * 2.5, step: .1, value: x.p0 });
+      [...$("modes").children].forEach((b, i) => b.classList.toggle("on", modes[i] === x));
+      render();
+    }
+
+    function render() {
+      const price = +$("slider").value;
+      const now = sold(current, price), revenue = price * now;
+      const start = current.p0 * sold(current, current.p0);
+      $("price").textContent = money(price);
+      $("crowd").innerHTML = crowd(now, sold(current, current.p0));
+      $("revenue").textContent = `Revenue ${money(revenue)} (starting point: ${money(start)})`;
+      notes.forEach(n => {
+        if (n.when(price, current, revenue, start)) seen.add(n.id);
+        $(`n-${n.id}`).classList.toggle("on", seen.has(n.id));
+      });
+    }
+
+    $("modes").addEventListener("click", e => { if (e.target.dataset.i) setProduct(modes[e.target.dataset.i]); });
+    $("slider").addEventListener("input", render);
+    setProduct(current);
+  </script>
+</body>
+</html>
