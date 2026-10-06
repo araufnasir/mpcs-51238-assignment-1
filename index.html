@@ -13,13 +13,42 @@
     .thumb iframe { width: 1200px; height: 800px; border: 0; transform: scale(.25); transform-origin: 0 0; pointer-events: none; }
     .card p { margin: 0; padding: .75rem; }
     .card b { display: block; }
+    .story { max-width: 46rem; }
+    .story li { margin-bottom: .6rem; }
+    .story ul { margin-top: .4rem; }
+    #final-choice { margin-top: 3rem; padding: 1.5rem; background-color: #fff8d6; border: 2px solid #111; border-radius: 8px; max-width: 46rem; }
+    #final-choice blockquote { margin: 0 0 1rem; font-size: 1.15rem; }
+    .open { display: inline-block; padding: .6rem 1.4rem; background-color: #1f5f4a; color: #fff; font-weight: 700; text-decoration: none; border-radius: 2rem; }
+    .open:hover { background-color: #111; }
   </style>
 </head>
 <body>
   <header>
     <h1>What does a price change actually do?</h1>
-    <p>Twenty-five takes on one landing page explaining price elasticity in plain language. Versions 1–12 explore very different directions; 13–25 converge on what works.</p>
+    <p>Twenty-five takes on one landing page explaining price elasticity in plain language. Versions 1–12 explore very different directions; 13–25 converge on what works. <a href="#final-choice">Jump to the final choice.</a></p>
   </header>
+
+  <section class="story">
+    <h2>How I got here</h2>
+    <ol>
+      <li><b>The idea.</b> A plain-language explainer, "What does a price change actually do?", for non-economists: small business owners, students, anyone who sets or pays prices.</li>
+      <li><b>Exploration (v01–v12).</b> Twelve deliberately different directions: newspaper, brutalist manifesto, stock ticker, magazine, receipt, lemonade game, Swiss grid, 80s flyer, calm essay, picture book, dashboard and whiteboard.</li>
+      <li><b>Narrowing.</b> I picked v06, the interactive lemonade game, as the core because visitors learn by doing, and v12 for its approachable hand-drawn tone as the starting look for v13–v18. I dropped the dense or flashy directions (dashboard, brutalist, 80s flyer) because they looked striking but explained less.</li>
+      <li><b>Pushback.</b> v13–v17 shared one stylesheet, so they looked too similar. I caught it and had the agent give each its own visual world: arcade, split screen, chalkboard and ledger, plus a new v14.</li>
+      <li><b>Dead end.</b> The first v14, a blueprint, showed white text on a white page. A background shorthand I had written was invalid, but fixing it did not clear the problem, so I dropped it. A bus-fare poster came next, and I settled on a simple static recipe card.</li>
+      <li><b>Convergence (v19–v25).</b>
+        <ul>
+          <li><b>v19</b> combines v06's lemonade stand with v18's giant slider and a one-line coach; the lesson appears once you have pushed the price up in both situations.</li>
+          <li><b>v20</b> is a two-scene scrolling story with a "best possible profit" meter.</li>
+          <li><b>v21</b> puts the festival and rival stands side by side on one slider, so you see that no single price suits both.</li>
+          <li><b>v22</b> is a price lab: presets and dials for price, cost and how replaceable the product is, plus a "raise it another 10%" what-if.</li>
+          <li><b>v23</b> is a four-step tour: festival, rival, a guess-first petrol-vs-cake round, then the lab.</li>
+          <li><b>v24</b> puts everything on one scroll in the converged look: demo, +10% table, three reasons, lab and glossary. It was too long.</li>
+          <li><b>v25</b> cuts v24 to the one-minute path: the answer, the demo, why products differ, why it matters, and an optional lab.</li>
+        </ul>
+      </li>
+    </ol>
+  </section>
 
   <main>
     <section>
@@ -29,7 +58,8 @@
 
     <section id="final-choice">
       <h2>Final choice</h2>
-      <p>Coming once the versions are built: which one won, and the story of how we got there.</p>
+      <blockquote>v25 is my final choice because a visitor sets a price and immediately sees buyers react. That taught elasticity faster than any read-only version, and it's what I valued most when I picked v06. It's also the clearest: a visitor understands in under a minute that demand reacts to price, that some products react more than others, and why that matters. I gave up some of the visual boldness of the early versions for clarity.</blockquote>
+      <a class="open" href="v25/index.html">Open the final page, v25 →</a>
     </section>
   </main>
 
