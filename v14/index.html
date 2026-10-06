@@ -3,94 +3,69 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Demand Curve: Engineering Drawing</title>
+  <title>Bus Fare: What Does a Price Change Do?</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="sheet">
-    <div class="head"><a href="../index.html">← Gallery</a><h1>Drawing 14: demand curve, price vs units sold</h1><span>Rev. A</span></div>
+  <header class="top">
+    <span class="badge">🚌</span>
+    <h1>Bus fare</h1>
+    <a href="../index.html">← Gallery</a>
+  </header>
 
-    <svg viewBox="0 0 620 370" role="img" aria-label="Demand curve with live dimension lines for price and units sold">
-      <defs>
-        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#fff"/></marker>
-      </defs>
-      <path class="line" d="M90 30V310H590"/>
-      <g class="line" id="ticks"></g>
-      <path class="curve" id="curve"/>
-      <path class="thin" id="extV"/><path class="thin" id="extH"/>
-      <path class="line" id="dimH" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
-      <path class="line" id="dimV" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
-      <text id="txtH" text-anchor="middle"></text>
-      <text id="txtV" text-anchor="middle"></text>
-      <g id="pt"><circle class="line" r="7"/><path class="line" d="M-14 0H14M0-14V14"/></g>
-      <text x="96" y="24">Price</text><text x="540" y="304">Units sold</text>
-    </svg>
+  <main id="app" class="commute">
+    <p class="lead">Tap a stop to set the fare. Watch who still rides.</p>
 
-    <aside class="notes">
-      <h2>Notes</h2>
-      <ol>
-      <li>Demand falls as price rises.</li>
-      <li>Steep curve: inelastic, buyers barely react. Flat curve: elastic, buyers react a lot.</li>
-      <li id="shape"></li>
-      <li>Before changing a price ask: what would my customers do instead?</li>
-      </ol>
-    </aside>
+    <div class="lines" id="lines"></div>
 
-    <div class="titleblock">
-      <div><small>Item</small><div id="modes"></div></div>
-      <div><small>Price (adjust)</small><b id="price"></b></div>
-      <div><small>Slider</small><input id="slider" type="range" step=".1" aria-label="Price"></div>
-      <div><small>Result</small><b id="reading"></b></div>
+    <div class="route" id="route"></div>
+    <p class="stop-label" id="fareLabel"></p>
+
+    <div class="platform"><div class="crowd" id="crowd"></div></div>
+
+    <div class="tiles">
+      <div>Riders<b id="riders"></b></div>
+      <div>Revenue<b id="revenue"></b></div>
+      <div>Revenue vs $3<b id="change"></b></div>
     </div>
-  </div>
+
+    <p class="verdict" id="verdict"></p>
+    <p class="note">How much riders react to the fare is called <u>price elasticity</u>. Little reaction: inelastic. Big reaction: elastic.</p>
+  </main>
 
   <script src="../shared/sketch.js"></script>
   <script>
-    const modes = [PRODUCTS.petrol, PRODUCTS.cake];
-    let current = modes[0], lo, hi;
-    const X0 = 90, Y_LO = 310, Y_HI = 30;
-    const toX = units => X0 + units * 5;
-    const toY = price => Y_LO - (price - lo) / (hi - lo) * (Y_LO - Y_HI);
-    const set = (id, attrs) => Object.entries(attrs).forEach(([k, v]) => $(id).setAttribute(k, v));
+    // Illustrative demand: the usual fare is $3 and 60 of 100 potential riders pay it.
+    const USUAL = 3;
+    const FARES = [1, 2, 3, 4, 5, 6];
+    const lines = [
+      { css: "commute", name: "Line 1", label: "Commuters with no car", x: { p0: USUAL, base: 60, e: .3 }, why: "They need the bus to get to work, so most keep riding." },
+      { css: "short", name: "Line 2", label: "Short trips people could walk", x: { p0: USUAL, base: 60, e: 2.5 }, why: "They can just walk, so many skip the bus." },
+    ];
+    let line = lines[0], fare = USUAL;
 
-    $("modes").innerHTML = modes.map((m, i) => `<button class="btn" data-i="${i}">${m.name}</button>`).join("");
-
-    function setProduct(x) {
-      current = x;
-      lo = x.p0 * .4; hi = x.p0 * 2.2;
-      set("curve", { d: Array.from({ length: 41 }, (_, i) => {
-        const price = lo + (hi - lo) * i / 40;
-        return `${i ? "L" : "M"}${toX(demand(x, price))} ${toY(price)}`;
-      }).join("") });
-      const priceTicks = [0, 1, 2, 3, 4].map(i => lo + (hi - lo) * i / 4);
-      $("ticks").innerHTML =
-        priceTicks.map(p => `<path d="M${X0 - 6} ${toY(p)}H${X0}"/><text x="${X0 - 10}" y="${toY(p) + 4}" text-anchor="end">${money(p)}</text>`).join("") +
-        [0, 25, 50, 75, 100].map(u => `<path d="M${toX(u)} 310v6"/><text x="${toX(u)}" y="328" text-anchor="middle">${u}</text>`).join("");
-      Object.assign($("slider"), { min: lo, max: hi, value: x.p0 });
-      [...$("modes").children].forEach((b, i) => b.classList.toggle("on", modes[i] === x));
-      $("shape").textContent = x.blurb;
-      render();
-    }
+    $("lines").innerHTML = lines.map((l, i) => `<button class="${l.css}" data-i="${i}">${l.name}<small>${l.label}</small></button>`).join("");
+    $("route").innerHTML = FARES.map(f => `<button class="stop" data-fare="${f}" aria-label="Fare $${f}">$${f}</button>`).join("");
 
     function render() {
-      const price = +$("slider").value, units = sold(current, price);
-      const x = toX(demand(current, price)), y = toY(price);
-      $("pt").setAttribute("transform", `translate(${x} ${y})`);
-      set("extV", { d: `M${x} ${y}V345` });
-      set("extH", { d: `M${x} ${y}H30` });
-      set("dimH", { d: `M${X0} 340H${x}` });
-      set("dimV", { d: `M30 ${Y_LO}V${y}` });
-      set("txtH", { x: (X0 + x) / 2, y: 358 });
-      set("txtV", { transform: `translate(20 ${(Y_LO + y) / 2}) rotate(-90)` });
-      $("txtH").textContent = `${units} units`;
-      $("txtV").textContent = money(price);
-      $("price").textContent = money(price);
-      $("reading").textContent = `Revenue ${money(price * units)}`;
+      const riders = sold(line.x, fare), usual = sold(line.x, USUAL);
+      const revenue = fare * riders, change = revenue / (USUAL * usual) - 1;
+      $("app").className = line.css;
+      [...$("lines").children].forEach((b, i) => b.classList.toggle("on", lines[i] === line));
+      [...$("route").children].forEach(b => b.classList.toggle("on", +b.dataset.fare === fare));
+      $("fareLabel").textContent = `Fare: ${money(fare)}`;
+      $("crowd").innerHTML = `🚌 ${crowd(riders, usual)}`;
+      $("riders").textContent = riders;
+      $("revenue").textContent = money(revenue);
+      $("change").textContent = percent(change);
+      $("verdict").textContent = fare === USUAL
+        ? `The usual fare is ${money(USUAL)}. Pick another stop to see how riders react.`
+        : `Fare ${fare > USUAL ? "up" : "down"} to ${money(fare)}: riders ${percent(riders / usual - 1)}, revenue ${percent(change)}. ${line.why}`;
     }
 
-    $("modes").addEventListener("click", e => { if (e.target.dataset.i) setProduct(modes[e.target.dataset.i]); });
-    $("slider").addEventListener("input", render);
-    setProduct(current);
+    $("lines").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { line = lines[b.dataset.i]; render(); } });
+    $("route").addEventListener("click", e => { if (e.target.dataset.fare) { fare = +e.target.dataset.fare; render(); } });
+    render();
   </script>
 </body>
 </html>

@@ -1,39 +1,36 @@
-/* Blueprint: blue paper, white linework, dimension labels, title block. */
-body { margin: 0; min-height: 100vh; color: #fff; font: 500 .85rem/1.5 "Avenir Next Condensed", "Arial Narrow", Helvetica, sans-serif; text-transform: uppercase; letter-spacing: .1em; }
-html, body { background-color: #174a9c; }
-body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background: linear-gradient(#fff2 1px, #0000 1px) 0 0 / 100px 100px, linear-gradient(90deg, #fff2 1px, #0000 1px) 0 0 / 100px 100px,
-    linear-gradient(#fff1 1px, #0000 1px) 0 0 / 20px 20px, linear-gradient(90deg, #fff1 1px, #0000 1px) 0 0 / 20px 20px; }
-a { color: #fff; }
+/* Transit-authority poster: flat colors, bold sans type, route bars and round stops. Solid colors only. */
+body { margin: 0; background-color: #f4f1ea; color: #111; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 800; }
+.commute { --line: #00a651; }
+.short { --line: #f26522; }
 
-.sheet { position: relative; z-index: 1; margin: 1rem; border: 2px solid #fff; outline: 1px solid #fff; outline-offset: 5px; display: grid; grid-template-columns: 1fr 15rem; }
-.head { grid-column: 1 / -1; display: flex; justify-content: space-between; padding: .4rem .75rem; border-bottom: 1px solid #fff; }
-h1 { font-size: 1.1rem; margin: 0; font-weight: 700; }
+.top { background-color: #0057b8; color: #fff; display: flex; align-items: center; gap: 1rem; padding: .75rem 1.5rem; }
+.top a { color: #fff; font-size: .9rem; }
+.top h1 { margin: 0; font-size: clamp(1.6rem, 5vw, 2.6rem); text-transform: uppercase; letter-spacing: .02em; }
+.badge { width: 3rem; height: 3rem; border-radius: 50%; background-color: #fff; color: #0057b8; display: grid; place-items: center; font-size: 1.6rem; }
 
-svg { width: 100%; height: auto; display: block; }
-svg text { font: 12px "Avenir Next Condensed", "Arial Narrow", sans-serif; letter-spacing: .1em; fill: #fff; }
-.line { fill: none; stroke: #fff; stroke-width: 1.5; }
-.curve { fill: none; stroke: #fff; stroke-width: 3; }
-.thin { fill: none; stroke: #fff; stroke-width: 1; stroke-dasharray: 6 4; }
+main { max-width: 56rem; margin: 0 auto; padding: 1.5rem; }
+.lead { font-size: 1.2rem; font-weight: 600; margin: 0 0 1.5rem; }
 
-.notes { padding: 1rem; border-left: 1px solid #fff; }
-.notes ol { margin: 0; padding-left: 1.2rem; }
-.notes li { margin-bottom: .75rem; }
-.notes h2 { font-size: .85rem; margin: 0 0 .5rem; text-decoration: underline; }
+.lines { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.lines button { flex: 1; min-width: 14rem; font: inherit; text-align: left; border: 0; border-radius: 1rem; padding: 1rem; color: #fff; background-color: var(--line); opacity: .45; cursor: pointer; }
+.lines button.on { opacity: 1; outline: .35rem solid #111; }
+.lines small { display: block; font-weight: 600; }
 
-.titleblock { grid-column: 1 / -1; display: grid; grid-template-columns: 2fr 2fr 3fr 2fr; border-top: 2px solid #fff; }
-.titleblock > div { padding: .5rem .75rem; border-right: 1px solid #fff; }
-.titleblock > div:last-child { border-right: 0; }
-.titleblock small { display: block; font-size: .65rem; opacity: .7; }
-.titleblock b { font-size: 1.1rem; }
+.route { position: relative; display: flex; justify-content: space-between; padding: 0 .5rem; margin: 2rem 0 .5rem; }
+.route::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1.6rem; margin-top: -.8rem; background-color: var(--line); border-radius: 1rem; }
+.stop { position: relative; width: 4.2rem; height: 4.2rem; border-radius: 50%; border: .5rem solid var(--line); background-color: #fff; color: #111; font: inherit; font-size: 1.2rem; cursor: pointer; }
+.stop.on { background-color: #ffd100; border-color: #111; }
+.stop-label { margin: 0 0 1.5rem; text-align: center; font-weight: 600; }
 
-.btn { font: inherit; letter-spacing: inherit; text-transform: inherit; color: #fff; background: none; border: 1px solid #fff; padding: .15rem .6rem; margin: 0 .3rem .3rem 0; cursor: pointer; }
-.btn.on, .btn:hover { background: #fff; color: #174a9c; }
+.platform { background-color: #fff; border-radius: 1rem; border: .35rem solid var(--line); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.crowd { font-size: 2rem; line-height: 1.3; min-height: 4rem; }
+.gone { opacity: .15; }
 
-input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: none; height: 1.5rem; }
-input[type=range]::-webkit-slider-runnable-track { height: 1px; background: #fff; }
-input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 22px; margin-top: -10px; background: #174a9c; border: 2px solid #fff; border-radius: 0; }
-input[type=range]::-moz-range-track { height: 1px; background: #fff; }
-input[type=range]::-moz-range-thumb { width: 8px; height: 18px; background: #174a9c; border: 2px solid #fff; border-radius: 0; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: .75rem; margin-bottom: 1.25rem; }
+.tiles div { background-color: var(--line); color: #fff; border-radius: 1rem; padding: .75rem 1rem; font-size: .9rem; text-transform: uppercase; }
+.tiles b { display: block; font-size: 2.2rem; line-height: 1.1; }
 
-@media (max-width: 50rem) { .sheet, .titleblock { grid-template-columns: 1fr; } .notes { border-left: 0; border-top: 1px solid #fff; } .titleblock > div { border-right: 0; border-bottom: 1px solid #fff; } }
+.verdict { background-color: #111; color: #ffd100; border-radius: 1rem; padding: 1rem 1.25rem; font-size: 1.15rem; margin: 0 0 1.25rem; }
+.note { font-weight: 600; margin: 0; }
+
+@media (max-width: 40rem) { .stop { width: 2.8rem; height: 2.8rem; border-width: .3rem; font-size: .9rem; } }
