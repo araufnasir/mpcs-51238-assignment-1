@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Guided Tour of Price Changes</title>
+  <link rel="stylesheet" href="../shared/widgets.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top"><a href="../index.html">← Gallery</a><div class="dots" id="dots" aria-hidden="true"></div></header>
+  <main><section class="card" id="card"></section></main>
+
+  <script src="../shared/sketch.js"></script>
+  <script src="../shared/widgets.js"></script>
+  <script>
+    // Guess first: which loses more buyers when the price rises 10%?
+    function predict(el) {
+      el.innerHTML = `<div class="choices"><button class="choice" data-k="petrol">⛽ Petrol</button><button class="choice" data-k="cake">🍰 Cake</button></div><div class="reveal"></div>`;
+      el.addEventListener("click", e => {
+        const k = e.target.dataset.k;
+        if (!k) return;
+        el.querySelectorAll(".choice").forEach(b => b.classList.toggle("on", b === e.target));
+        el.querySelector(".reveal").innerHTML = `
+          <p class="verdict">${k === "cake" ? "Right!" : "Not quite."} Cake buyers react far more than petrol buyers.</p><div class="rise"></div>
+          <p>That difference is <u>price elasticity</u>. Easy to skip or swap (cake): elastic. Hard to do without (petrol): inelastic.</p>`;
+        mountRise(el.querySelector(".rise"), ["petrol", "cake"]);
+      });
+    }
+
+    const steps = [
+      { title: "A hot day, one stand", text: "You sell lemonade at a festival and yours is the only stand. Each cup costs $0.30. Drag the price.", mount: el => mountStand(el, ["festival"]) },
+      { title: "Now a rival moves in", text: "Another stand opens ten steps away with the same lemonade. Drag the price again and compare.", mount: el => mountStand(el, ["rival"]) },
+      { title: "Make a guess", text: "Both petrol and cake get 10% more expensive. Which one loses more buyers?", mount: predict },
+      { title: "Your turn", text: "Pick something you sell or buy and try prices. The coloured badge tells you how buyers react.", mount: el => mountPlayground(el) },
+    ];
+    let step = 0;
+
+    function render() {
+      const s = steps[step], last = step === steps.length - 1;
+      $("dots").innerHTML = steps.map((_, i) => `<span class="${i <= step ? "on" : ""}"></span>`).join("");
+      $("card").innerHTML = `
+        <p class="eyebrow">Step ${step + 1} of ${steps.length}</p>
+        <h1>${s.title}</h1><p>${s.text}</p>
+        <div id="body"></div>
+        <div class="nav"><button class="btn ghost" id="back" ${step ? "" : "disabled"}>← Back</button><button class="btn" id="next">${last ? "Start over" : "Next →"}</button></div>`;
+      s.mount($("body"));
+    }
+
+    $("card").addEventListener("click", e => {
+      if (e.target.id === "next") step = (step + 1) % steps.length;
+      else if (e.target.id === "back") step--;
+      else return;
+      render();
+    });
+    render();
+  </script>
+</body>
+</html>
