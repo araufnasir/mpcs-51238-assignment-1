@@ -1,0 +1,39 @@
+/* Accountant's ledger on aged paper: ruled columns, ink stamp, typewriter text. */
+body { margin: 0; background: #6e5a43; color: #2b2a33; font: 1rem/2rem "American Typewriter", "Courier New", Courier, monospace; }
+a { color: #8a1c1c; }
+.book { display: grid; grid-template-columns: auto 1fr; max-width: 56rem; margin: 1.5rem auto; padding: 0 1rem; }
+
+/* Index tabs down the left edge. */
+.tabs { display: flex; flex-direction: column; gap: .3rem; padding-top: 3rem; }
+.tabs button { writing-mode: vertical-rl; transform: rotate(180deg); font: inherit; font-size: .85rem; line-height: 1.4; padding: .8rem .3rem; color: #2b2a33; background: #c9b27a; border: 1px solid #5a4a2a; border-left: 0; border-radius: 0 6px 6px 0; cursor: pointer; }
+.tabs button.on { background: #efe3c2; font-weight: 700; }
+
+.page { position: relative; padding: 1.5rem 2rem 2rem 4rem; background: #efe3c2 radial-gradient(#0000 55%, #8a6d3b55) ; box-shadow: 0 6px 20px #0008;
+  background-image: repeating-linear-gradient(#0000 0 1.95rem, #5f86b055 1.95rem 2rem), radial-gradient(#0000 55%, #8a6d3b55); }
+.page::before { content: ""; position: absolute; top: 0; bottom: 0; left: 3rem; border-left: 2px solid #c0392b88; border-right: 1px solid #c0392b88; width: 3px; }
+h1 { font-size: 1.5rem; line-height: 2rem; margin: 0; text-transform: uppercase; letter-spacing: .15em; border-bottom: 3px double #2b2a33; }
+.memo { margin: 0; font-style: italic; }
+
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+th { text-align: left; font-size: .8rem; text-transform: uppercase; letter-spacing: .15em; border-bottom: 2px solid #2b2a33; }
+td, th { padding: 0 .5rem; border-right: 1px solid #5f86b0aa; }
+td:last-child, th:last-child { border-right: 0; }
+td:first-child, th:first-child { padding-left: 0; }
+.remarks { font-size: .85rem; }
+.right { text-align: right; }
+.sum td { border-top: 1px solid #2b2a33; border-bottom: 4px double #2b2a33; font-weight: 700; }
+
+input[type=number] { font: inherit; width: 5rem; background: none; border: 0; border-bottom: 1px dotted #2b2a33; color: #1a3b8c; text-align: right; }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; background: none; height: 2rem; }
+input[type=range]::-webkit-slider-runnable-track { height: 0; border-top: 1px dotted #2b2a33; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 20px; margin-top: -10px; background: #1a3b8c; border-radius: 0; }
+input[type=range]::-moz-range-track { height: 0; border-top: 1px dotted #2b2a33; }
+input[type=range]::-moz-range-thumb { width: 10px; height: 18px; background: #1a3b8c; border: 0; border-radius: 0; }
+
+.tally { color: #1a3b8c; letter-spacing: .15em; font-weight: 700; }
+.tally s { text-decoration-thickness: 2px; }
+.gone { opacity: .25; }
+.stamp { position: absolute; right: 2rem; bottom: 6.5rem; transform: rotate(-12deg); padding: 0 1rem; border: 4px double #b3261e; color: #b3261e; font-size: 1.6rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; opacity: .8; mix-blend-mode: multiply; }
+#verdict { margin: 0; max-width: 28rem; }
+
+@media (max-width: 40rem) { .page { padding: 1rem 1rem 2rem 2.5rem; } .page::before { left: 1.5rem; } .stamp { position: static; display: inline-block; margin: .5rem 0; } }

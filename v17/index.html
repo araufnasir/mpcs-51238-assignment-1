@@ -3,46 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Price Your Own Product</title>
-  <link rel="stylesheet" href="../shared/sketch.css">
-  <style>
-    .playground { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; align-items: start; }
-    label { display: block; margin-bottom: .75rem; }
-    input[type=number] { font: inherit; width: 6rem; border: 3px solid #222; border-radius: .5rem; padding: .1rem .4rem; }
-    @media (max-width: 45rem) { .playground { grid-template-columns: 1fr; } }
-  </style>
+  <title>The Price Ledger</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
-    <a href="../index.html">← Gallery</a>
-    <h1>Price your own product</h1>
-    <p>Pick something close to what you sell or buy, then tweak it. Find the price that makes the most money.</p>
-    <div class="row" id="presets"></div>
+  <div class="book">
+    <nav class="tabs" id="presets" aria-label="Product presets"></nav>
 
-    <div class="playground">
-      <div class="note blue">
-        <label>Typical price <input id="p0" type="number" min="1" step="1"></label>
-        <label>Your cost per item <input id="cost" type="number" min="0" step="1"></label>
-        <label>How easy is it to replace? <b id="easeText"></b>
-          <input id="ease" type="range" min="1" max="5">
-        </label>
-        <label>Your price: <b id="price"></b>
-          <input id="pct" type="range" min="30" max="300" value="100">
-        </label>
-      </div>
+    <main class="page">
+      <a href="../index.html">← Gallery</a>
+      <h1>Ledger of Prices</h1>
+      <p class="memo">Choose a tab, amend the entries, and find the price that earns most.</p>
 
-      <div class="note red">
-        <div class="crowd" id="crowd"></div>
-        <div class="stats">
-          <div>Buyers<b id="buyers"></b></div>
-          <div>Revenue<b id="revenue"></b></div>
-          <div>Profit<b id="profit"></b></div>
-        </div>
-        <p id="best"></p>
-        <p id="verdict"></p>
-      </div>
-    </div>
-  </main>
+      <table>
+        <thead><tr><th>Particulars</th><th>Entry</th><th>Remarks</th></tr></thead>
+        <tbody>
+          <tr><td>Typical price</td><td class="right"><input id="p0" type="number" min="1" step="1" aria-label="Typical price"></td><td class="remarks">what buyers expect to pay</td></tr>
+          <tr><td>Cost per item</td><td class="right"><input id="cost" type="number" min="0" step="1" aria-label="Cost per item"></td><td class="remarks">what it costs you</td></tr>
+          <tr><td>Replaceable?</td><td><input id="ease" type="range" min="1" max="5" aria-label="How easy to replace"></td><td class="remarks" id="easeText"></td></tr>
+          <tr><td>Price charged</td><td><input id="pct" type="range" min="30" max="300" value="100" aria-label="Price charged"></td><td id="price"></td></tr>
+        </tbody>
+      </table>
+
+      <table>
+        <thead><tr><th>Account</th><th>Tally of buyers</th><th class="right">Figure</th></tr></thead>
+        <tbody>
+          <tr><td>Buyers</td><td class="tally" id="tally"></td><td class="right" id="buyers"></td></tr>
+          <tr><td>Revenue</td><td></td><td class="right" id="revenue"></td></tr>
+          <tr class="sum"><td>Net profit</td><td></td><td class="right" id="profit"></td></tr>
+        </tbody>
+      </table>
+
+      <p id="best"></p>
+      <p id="verdict"></p>
+      <div class="stamp" id="stamp"></div>
+    </main>
+  </div>
 
   <script src="../shared/sketch.js"></script>
   <script>
@@ -53,10 +49,13 @@
       { name: "💊 Prescription", p0: 30, cost: 10, ease: 1 },
       { name: "💇 Haircut", p0: 35, cost: 10, ease: 2 },
     ];
-    const easeLabels = ["Nothing else will do", "Hard to replace", "Some alternatives", "Many alternatives", "Swap in a second"];
+    const easeLabels = ["nothing else will do", "hard to replace", "some alternatives", "many alternatives", "swap in a second"];
     const fields = ["p0", "cost", "ease", "pct"];
 
-    $("presets").innerHTML = presets.map((p, i) => `<button class="btn" data-i="${i}">${p.name}</button>`).join("");
+    // One stroke per 5 buyers, every fifth stroke crosses the previous four.
+    const tally = n => { const m = Math.round(n / 5); return "<s>||||</s> ".repeat(Math.floor(m / 5)) + "|".repeat(m % 5); };
+
+    $("presets").innerHTML = presets.map((p, i) => `<button data-i="${i}">${p.name}</button>`).join("");
 
     function render() {
       const p0 = +$("p0").value || 1;
@@ -67,14 +66,15 @@
 
       $("easeText").textContent = easeLabels[$("ease").value - 1];
       $("price").textContent = money(price);
-      $("crowd").innerHTML = crowd(now, before);
+      $("tally").innerHTML = `${tally(now)}<span class="gone"> ${tally(Math.max(0, before - now))}</span>`;
       $("buyers").textContent = percent(now / before - 1);
       $("revenue").textContent = money(price * now);
       $("profit").textContent = money(profitAt(x, price));
       $("best").textContent = `Best price here: about ${money(top)} (profit ${money(profitAt(x, top))}).`;
+      $("stamp").textContent = x.e < 1 ? "Inelastic" : "Elastic";
       $("verdict").textContent = x.e < 1
-        ? "Inelastic: buyers barely react, so raising the price tends to bring in more money, up to a point."
-        : "Elastic: buyers react strongly, so raising the price tends to lose more in sales than it gains per sale.";
+        ? "Buyers barely react, so raising the price tends to bring in more money, up to a point."
+        : "Buyers react strongly, so raising the price tends to lose more in sales than it gains per sale.";
     }
 
     $("presets").addEventListener("click", e => {
