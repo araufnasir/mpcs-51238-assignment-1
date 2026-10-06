@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DEMAND TERMINAL</title>
+  <style>
+    body { margin: 0; background: #050a05; color: #3dff7a; font: .95rem/1.5 "SF Mono", Menlo, Consolas, monospace; }
+    a { color: #ffb000; }
+    .ticker { overflow: hidden; white-space: nowrap; background: #0b1a0b; border-bottom: 1px solid #1c4d2a; padding: .4rem 0; }
+    .ticker span { display: inline-block; padding-left: 100%; animation: scroll 30s linear infinite; }
+    @keyframes scroll { to { transform: translateX(-100%); } }
+    .up { color: #3dff7a; } .down { color: #ff4d4d; }
+    main { max-width: 60rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+    h1 { font-size: 1.6rem; margin: 1rem 0 0; }
+    h1::before { content: "> "; color: #ffb000; }
+    .panel { border: 1px solid #1c4d2a; padding: 1rem; margin: 1.5rem 0; background: #08120a; }
+    .panel h2 { margin: 0 0 .5rem; font-size: 1rem; color: #ffb000; text-transform: uppercase; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; }
+    input[type=range] { width: 100%; accent-color: #3dff7a; }
+    .out { font-size: 1.2rem; }
+    .dim { color: #1f9c4b; }
+  </style>
+</head>
+<body>
+  <div class="ticker"><span>
+    PETROL <b class="down">▼ 2% sold</b> after +10% price &nbsp;|&nbsp;
+    CONCERT TICKETS <b class="down">▼ 20% sold</b> after +10% price &nbsp;|&nbsp;
+    INSULIN <b class="down">▼ 1% sold</b> after +10% price &nbsp;|&nbsp;
+    CAFÉ LUNCH <b class="down">▼ 15% sold</b> after +10% price &nbsp;|&nbsp;
+    SAME PRICE RISE. DIFFERENT REACTION.
+  </span></div>
+
+  <main>
+    <a href="../index.html">← Gallery</a>
+    <h1>DEMAND TERMINAL: what does a price change actually do?</h1>
+    <p class="dim">Every price move gets a reaction from buyers. How big that reaction is has a name: <b>price elasticity</b>. Big reaction = elastic. Small reaction = inelastic.</p>
+
+    <div class="panel">
+      <h2>Live simulator</h2>
+      <label>Change the price by <b id="pct">+10%</b>
+        <input id="price" type="range" min="-30" max="30" value="10">
+      </label>
+      <div class="grid" id="products"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Reading the board</h2>
+      <p><b>Sold</b> = how many units customers still buy. <b>Revenue</b> = price × units sold, the money actually coming in.</p>
+      <p>Elastic items: raising the price loses so many buyers that revenue <span class="down">falls</span>. Inelastic items: most buyers stay, so revenue <span class="up">rises</span>.</p>
+      <p class="dim">Why they differ: substitutes available, necessity vs. luxury, and share of your budget.</p>
+    </div>
+  </main>
+
+  <script>
+    // elasticity = % drop in units sold per 1% price rise (simplified, illustrative values)
+    const products = [
+      ["Petrol", 0.2],
+      ["Café lunch", 1.5],
+      ["Concert tickets", 2.5],
+    ];
+    const price = document.getElementById("price");
+
+    function render() {
+      const change = +price.value;
+      document.getElementById("pct").textContent = (change > 0 ? "+" : "") + change + "%";
+      document.getElementById("products").innerHTML = products.map(([name, e]) => {
+        const units = (1 + change / 100) ** -e - 1;
+        const revenue = (1 + change / 100) * (1 + units) - 1;
+        const fmt = x => `<b class="${x >= 0 ? "up" : "down"}">${x >= 0 ? "▲" : "▼"} ${Math.abs(x * 100).toFixed(1)}%</b>`;
+        return `<div><div>${name}</div><div class="out">Sold ${fmt(units)}</div><div class="out">Revenue ${fmt(revenue)}</div></div>`;
+      }).join("");
+    }
+
+    price.addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>
