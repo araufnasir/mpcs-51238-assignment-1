@@ -1,0 +1,36 @@
+/* Split screen: each half is its own world. */
+body { margin: 0; font-family: "Avenir Next", Helvetica, Arial, sans-serif; }
+a { color: inherit; font-weight: 700; }
+.split { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+.world { position: relative; padding: 5.5rem 2rem 8rem; display: flex; flex-direction: column; gap: 1rem; }
+.world h2 { font-size: clamp(1.6rem, 4vw, 2.6rem); margin: 0; }
+.world p { margin: 0; }
+.price { font-size: clamp(3rem, 9vw, 6rem); line-height: 1; font-weight: 700; }
+.crowd { font-size: 2rem; line-height: 1.2; min-height: 5rem; }
+.gone { opacity: .15; filter: grayscale(1); }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.stats b { display: block; font-size: 2rem; }
+
+/* Top bar and floating control span both worlds. */
+.top { position: fixed; top: 0; left: 0; right: 0; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding: .6rem 1rem; background: #000c; color: #fff; }
+.top h1 { font-size: 1.1rem; margin: 0; }
+.control { position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%); z-index: 2; width: min(32rem, 90vw); padding: .8rem 1.2rem; text-align: center; background: #fff; color: #222; border-radius: 3rem; box-shadow: 0 6px 24px #0008; }
+.control b { font-size: 1.4rem; }
+.control input { width: 100%; accent-color: #ff2a6d; }
+
+/* World 1: neon petrol station at night. */
+.night { background: radial-gradient(circle at 50% 0, #2b0a4a, #05010f 60%); color: #7df9ff; text-transform: uppercase; letter-spacing: .12em; }
+.night h2 { color: #ff2a6d; text-shadow: 0 0 8px #ff2a6d, 0 0 24px #ff2a6d; }
+.night .price { font: 700 clamp(3rem, 9vw, 6rem) "Courier New", monospace; color: #ffe600; background: #000; border: 4px solid #444; padding: .2rem 1rem; text-shadow: 0 0 12px #ffe600; width: fit-content; }
+.night .stats b { text-shadow: 0 0 12px #7df9ff; }
+.night .crowd { filter: drop-shadow(0 0 6px #7df9ff); }
+
+/* World 2: pastel bakery by day. */
+.bakery { background: #fff3ec; color: #6b3f3f; font-family: Georgia, "Times New Roman", serif; }
+.bakery::before { content: ""; position: absolute; top: 2.8rem; left: 0; right: 0; height: 3.5rem; background: radial-gradient(circle at 50% 100%, #fff 0 .9rem, #0000 .95rem) 0 100% / 3.6rem 1.8rem repeat-x, repeating-linear-gradient(90deg, #ff9db8 0 1.8rem, #fff 1.8rem 3.6rem); }
+.bakery h2 { font-style: italic; }
+.bakery .price { display: inline-block; width: fit-content; font-family: Georgia, serif; background: #fff; border: 3px dashed #ff9db8; border-radius: 1rem; padding: .2rem 1.2rem; transform: rotate(-2deg); }
+.bakery .stats > div { background: #fff; border-radius: 1rem; padding: .5rem 1rem; }
+
+@media (max-width: 50rem) { .split { grid-template-columns: 1fr; } .world { position: relative; padding: 3rem 1.25rem 4rem; } .world:first-child { padding-top: 5rem; } }
+.world.bakery { padding-top: 7.5rem; }
