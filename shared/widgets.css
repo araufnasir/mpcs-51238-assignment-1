@@ -1,0 +1,27 @@
+/* Structure and sensible defaults for shared/widgets.js. Pages override the variables. Solid colors only. */
+:root { --ink: #111; --paper: #fff; --accent: #2563eb; --line: #111; --radius: 1rem; }
+
+.pills, .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .75rem; }
+.pill, .chip { font: inherit; color: var(--ink); background-color: var(--paper); border: 2px solid var(--line); border-radius: 2rem; padding: .35rem .9rem; cursor: pointer; }
+.pill.on, .chip.on { background-color: var(--ink); color: var(--paper); }
+
+.price { margin: 0; font-weight: 700; font-size: 2.4rem; }
+.slider { width: 100%; accent-color: var(--accent); }
+.crowd { font-size: 1.8rem; line-height: 1.25; min-height: 4.5rem; }
+.gone { opacity: .15; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .75rem; margin: .75rem 0; }
+.stats div { background-color: var(--paper); border: 2px solid var(--line); border-radius: var(--radius); padding: .5rem .75rem; }
+.stats b { display: block; font-size: 1.6rem; }
+.meter { height: 1rem; border: 2px solid var(--line); border-radius: 1rem; overflow: hidden; background-color: var(--paper); }
+.meter i { display: block; height: 100%; background-color: var(--accent); }
+.blurb, .best, .coach, .whatif, .verdict { margin: .5rem 0; }
+
+.pg { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+.field { display: block; margin-bottom: .9rem; }
+.field input[type=number] { font: inherit; width: 6rem; padding: .2rem .4rem; border: 2px solid var(--line); border-radius: .5rem; }
+.badge { display: inline-block; padding: .1rem .8rem; border: 2px solid var(--line); border-radius: 2rem; font-weight: 700; }
+.badge.elastic { background-color: #ffd9a8; }
+.badge.inelastic { background-color: #cfe3ff; }
+
+table.rise { width: 100%; border-collapse: collapse; }
+.rise th, .rise td { text-align: left; padding: .5rem .5rem .5rem 0; border-bottom: 2px solid var(--line); }

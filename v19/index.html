@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What does a price change actually do?</title>
+  <link rel="stylesheet" href="../shared/widgets.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="bar"><a href="../index.html">← Gallery</a><span>Price check</span></header>
+  <main>
+    <h1>What does a price change actually do?</h1>
+    <p class="sub">You run a lemonade stand. Drag the price and watch your customers. Try both situations, and push the price up in each.</p>
+    <div id="stand"></div>
+    <p class="lesson" id="lesson" hidden>Same price rise, different reaction. How strongly buyers react to price is called <u>price elasticity</u>. A big reaction (rival next door) is <b>elastic</b>. A small one (only stand at the festival) is <b>inelastic</b>.</p>
+  </main>
+
+  <script src="../shared/sketch.js"></script>
+  <script src="../shared/widgets.js"></script>
+  <script>mountStand($("stand"), ["festival", "rival"], { onLesson: () => { $("lesson").hidden = false; } });</script>
+</body>
+</html>
