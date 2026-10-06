@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Two Stands, One Price</title>
+  <link rel="stylesheet" href="../shared/widgets.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="head"><a href="../index.html">← Gallery</a><h1>Two stands, one price</h1></header>
+  <p class="intro">Both lemonade stands charge the same price. One is the only stand at a festival, the other has a rival ten steps away. Drag the price and find one that suits both. (Hint: you can't.)</p>
+
+  <div class="stands" id="stands"></div>
+
+  <div class="score">
+    <div>Together you make <b id="score"></b> of the best possible profit.<br>
+      Buyers who react a lot to price are <u>elastic</u>; buyers who barely react are <u>inelastic</u>. That's why the best price differs.</div>
+  </div>
+
+  <div class="dock">
+    <div class="price" id="price"></div>
+    <input class="slider" id="slider" type="range" min=".3" max="5" step=".1" value="1" aria-label="Price of one cup of lemonade, both stands">
+  </div>
+
+  <script src="../shared/sketch.js"></script>
+  <script>
+    const pair = [PRODUCTS.festival, PRODUCTS.rival];
+    $("stands").innerHTML = pair.map((x, i) => `
+      <section class="stand" id="stand${i}">
+        <h2>${x.name}</h2><p>${x.blurb}</p>
+        <div class="crowd" aria-hidden="true"></div>
+        <div class="line"><span>Cups sold</span><b class="cups"></b></div>
+        <div class="line"><span>Profit</span><b class="profit"></b></div>
+        <div class="meter"><i></i></div><p class="best"></p>
+      </section>`).join("");
+
+    function render() {
+      const price = +$("slider").value;
+      $("price").textContent = `${money(price)} a cup`;
+      let total = 0;
+      pair.forEach((x, i) => {
+        const q = s => $(`stand${i}`).querySelector(s);
+        const cups = sold(x, price), profit = profitAt(x, price), top = bestPrice(x, .3, 5);
+        const pct = Math.max(0, Math.round(profit / profitAt(x, top) * 100));
+        total += pct;
+        q(".crowd").innerHTML = crowd(cups, sold(x, x.p0));
+        q(".cups").textContent = cups;
+        q(".profit").textContent = money(profit);
+        q(".meter i").style.width = `${pct}%`;
+        q(".best").textContent = `${pct}% of this stand's best. Its best price is about ${money(top)}.`;
+      });
+      $("score").textContent = `${Math.round(total / pair.length)}%`;
+    }
+
+    $("slider").addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>
