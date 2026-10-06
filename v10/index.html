@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mia's Cookie Stand: A Book About Prices</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-snap-type: y proximity; }
+    body { margin: 0; font: 1.4rem/1.5 "Chalkboard SE", "Comic Sans MS", "Marker Felt", sans-serif; color: #3b2f5c; }
+    .back { position: fixed; top: .75rem; left: .75rem; z-index: 1; background: #fff; border-radius: 2rem; padding: .3rem .9rem; font-size: 1rem; color: #3b2f5c; text-decoration: none; }
+    .spread { min-height: 100vh; scroll-snap-align: start; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 2rem; padding: 4rem 3rem; position: relative; }
+    .spread:nth-child(odd) { background: #ffe9a8; }
+    .spread:nth-child(even) { background: #c9ecff; }
+    .spread::after { content: attr(data-page); position: absolute; bottom: 1rem; left: 50%; font-size: 1rem; opacity: .6; }
+    .art { font-size: clamp(6rem, 18vw, 12rem); text-align: center; line-height: 1.1; background: #fff; border-radius: 2rem; padding: 1.5rem; box-shadow: 8px 8px 0 #3b2f5c22; transform: rotate(-2deg); }
+    .spread:nth-child(even) .art { order: 2; transform: rotate(2deg); }
+    h1, h2 { font-size: clamp(2rem, 5vw, 3.4rem); line-height: 1.1; margin: 0 0 1rem; color: #e0457b; }
+    p { margin: 0 0 1rem; }
+    b { background: #fff7; border-radius: .4rem; padding: 0 .3rem; }
+    @media (max-width: 50rem) { .spread { grid-template-columns: 1fr; padding: 4rem 1.5rem; } .spread:nth-child(even) .art { order: 0; } }
+  </style>
+</head>
+<body>
+  <a class="back" href="../index.html">← Gallery</a>
+
+  <section class="spread" data-page="1">
+    <div class="art">🍪</div>
+    <div><h1>Mia’s Cookie Stand</h1><p>Mia sells cookies. One day she wonders: <b>what happens if I change the price?</b></p></div>
+  </section>
+
+  <section class="spread" data-page="2">
+    <div class="art">💸⬆️🙁</div>
+    <div><h2>Price goes up…</h2><p>Mia charges more. Some of her friends say, “Hmm, maybe not today.” <b>When prices go up, fewer people buy.</b></p></div>
+  </section>
+
+  <section class="spread" data-page="3">
+    <div class="art">🍪🍩🍰</div>
+    <div><h2>Lots of other treats!</h2><p>Friends can buy a donut or a cake instead. Lots of friends leave. We say the cookies are <b>elastic</b>: <b>buyers stretch away from the price.</b></p></div>
+  </section>
+
+  <section class="spread" data-page="4">
+    <div class="art">🚗⛽</div>
+    <div><h2>But not everything!</h2><p>Mia’s dad needs petrol to drive to work. The price goes up, and he still buys it. We say petrol is <b>inelastic</b>: <b>buyers barely budge.</b></p></div>
+  </section>
+
+  <section class="spread" data-page="5">
+    <div class="art">🤔🔁🛒💰</div>
+    <div><h2>Why are they different?</h2><p>Can I swap it for something else? Do I really need it? Is it a big part of my money? <b>The answers tell us how much people react.</b></p></div>
+  </section>
+
+  <section class="spread" data-page="6">
+    <div class="art">💡</div>
+    <div><h2>Mia’s big idea</h2><p>Before changing a price, Mia asks: <b>“If this cost more, what would my customers do instead?”</b></p><p>That’s called <b>price elasticity</b>. The end!</p></div>
+  </section>
+</body>
+</html>
