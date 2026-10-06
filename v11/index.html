@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ELASTICITY MONITOR</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #000; color: #ddd; font: 12px/1.4 Arial, Helvetica, sans-serif; }
+    a { color: #ff9f1a; }
+    .bar { background: #ff9f1a; color: #000; font-weight: 700; padding: .3rem .6rem; display: flex; justify-content: space-between; }
+    .bar a { color: #000; }
+    .board { display: grid; grid-template-columns: repeat(12, 1fr); gap: 2px; padding: 2px; background: #333; }
+    .panel { background: #0b0b12; padding: .5rem; }
+    .panel h2 { margin: -.5rem -.5rem .5rem; padding: .2rem .5rem; background: #1b1b2b; color: #ff9f1a; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
+    .p-title { grid-column: span 12; font-size: 1.1rem; }
+    .p-title b { color: #ff9f1a; }
+    .p-table { grid-column: span 7; } .p-bars { grid-column: span 5; }
+    .p-def { grid-column: span 4; } .p-why { grid-column: span 4; } .p-rule { grid-column: span 4; }
+    table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+    th { text-align: right; color: #888; font-weight: 400; border-bottom: 1px solid #333; }
+    th:first-child, td:first-child { text-align: left; }
+    td { text-align: right; padding: .15rem 0; border-bottom: 1px solid #1b1b2b; }
+    .up { color: #3ddc84; } .down { color: #ff4d4d; }
+    .row { display: grid; grid-template-columns: 7rem 1fr 3.5rem; gap: .4rem; align-items: center; margin-bottom: .3rem; }
+    .fill { height: .8rem; background: #ff4d4d; }
+    .big { font-size: 2rem; font-weight: 700; color: #ff9f1a; line-height: 1; }
+    p { margin: 0 0 .4rem; }
+    @media (max-width: 55rem) { .panel { grid-column: span 12 !important; } }
+  </style>
+</head>
+<body>
+  <div class="bar"><a href="../index.html">← Gallery</a><span>ELASTICITY MONITOR &lt;GO&gt;</span><span>ILLUSTRATIVE DATA</span></div>
+  <div class="board">
+    <div class="panel p-title"><b>WHAT DOES A 10% PRICE RISE DO?</b> Buyers cut back, but by very different amounts. This board shows how much, and what happens to the money coming in.</div>
+
+    <div class="panel p-table"><h2>Price rise +10%: demand and revenue</h2>
+      <table><thead><tr><th>Product</th><th>Elasticity</th><th>Units sold</th><th>Revenue</th><th>Type</th></tr></thead><tbody id="rows"></tbody></table>
+    </div>
+
+    <div class="panel p-bars"><h2>Fall in units sold</h2><div id="bars"></div></div>
+
+    <div class="panel p-def"><h2>Definition</h2>
+      <div class="big">ELASTICITY</div>
+      <p>How strongly buyers react when the price moves. Roughly: the % drop in sales for each 1% rise in price.</p>
+      <p><b>Above 1:</b> elastic, buyers react a lot. <b>Below 1:</b> inelastic, buyers barely react.</p>
+    </div>
+
+    <div class="panel p-why"><h2>Drivers</h2>
+      <p><b>Substitutes:</b> easy alternatives raise elasticity.</p>
+      <p><b>Necessity:</b> needs lower it, wants raise it.</p>
+      <p><b>Budget share:</b> bigger purchases raise it.</p>
+    </div>
+
+    <div class="panel p-rule"><h2>Why it matters</h2>
+      <p><span class="down">Elastic:</span> price rises can <b>cut</b> revenue.</p>
+      <p><span class="up">Inelastic:</span> price rises can <b>lift</b> revenue.</p>
+      <p>Ask: "If this cost more, what would my customers do instead?"</p>
+    </div>
+  </div>
+
+  <script>
+    // Illustrative elasticities, not real market data.
+    const products = [["Insulin", 0.1], ["Petrol", 0.3], ["Electricity", 0.4], ["Cinema ticket", 0.9], ["Leisure flight", 1.5], ["Restaurant meal", 2.3], ["One cola brand", 3.0]];
+    const RISE = 1.1;
+    const rows = products.map(([name, e]) => {
+      const units = RISE ** -e - 1;
+      return { name, e, units, revenue: RISE * (1 + units) - 1 };
+    });
+    const pct = x => `${x >= 0 ? "+" : ""}${(x * 100).toFixed(1)}%`;
+    const tone = x => x >= 0 ? "up" : "down";
+
+    document.getElementById("rows").innerHTML = rows.map(r => `
+      <tr><td>${r.name}</td><td>${r.e.toFixed(1)}</td><td class="${tone(r.units)}">${pct(r.units)}</td>
+      <td class="${tone(r.revenue)}">${pct(r.revenue)}</td><td>${r.e > 1 ? "Elastic" : "Inelastic"}</td></tr>`).join("");
+
+    const maxDrop = Math.max(...rows.map(r => -r.units));
+    document.getElementById("bars").innerHTML = rows.map(r => `
+      <div class="row"><span>${r.name}</span><div><div class="fill" style="width:${(-r.units / maxDrop) * 100}%"></div></div><span>${pct(r.units)}</span></div>`).join("");
+  </script>
+</body>
+</html>
