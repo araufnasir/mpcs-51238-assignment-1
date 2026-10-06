@@ -3,69 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Bus Fare: What Does a Price Change Do?</title>
+  <title>A Recipe for Changing a Price</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="top">
-    <span class="badge">🚌</span>
-    <h1>Bus fare</h1>
-    <a href="../index.html">← Gallery</a>
-  </header>
+  <a class="back" href="../index.html">← Gallery</a>
 
-  <main id="app" class="commute">
-    <p class="lead">Tap a stop to set the fare. Watch who still rides.</p>
+  <main class="card">
+    <div class="inner">
+      <div class="stamp">Prep time<b>1 minute</b></div>
+      <h1>A Recipe for Changing a Price</h1>
+      <p class="sub">What does a price change actually do?</p>
+      <p class="serves">Serves: anyone who sets or pays prices</p>
 
-    <div class="lines" id="lines"></div>
+      <h2>Ingredients</h2>
+      <ul class="ingredients">
+        <li>1 price<span>the one you are thinking of changing</span></li>
+        <li>Your customers<span>everyone who might buy</span></li>
+        <li>Their alternatives<span>what else they could buy, or do without</span></li>
+        <li>How much they need it<span>a must-have, or a nice-to-have?</span></li>
+      </ul>
 
-    <div class="route" id="route"></div>
-    <p class="stop-label" id="fareLabel"></p>
+      <h2>Method</h2>
+      <ol class="method">
+        <li><b>Change the price.</b> Raise it a little, say by 10%.</li>
+        <li><b>Watch demand react.</b> When a price goes up, fewer people buy. When it goes down, more do. This always happens. Only the amount differs.</li>
+        <li><b>Measure the reaction.</b> How strongly buyers react has a name: <i>price elasticity</i>. A big reaction (cake, concert tickets) is <i>elastic</i>. A small reaction (petrol, medicine) is <i>inelastic</i>.</li>
+        <li><b>Check your ingredients.</b> Lots of alternatives and a nice-to-have: buyers leave fast. Few alternatives and a must-have: buyers stay.</li>
+        <li><b>Taste the result.</b> Raise an elastic price and you can earn less overall. Raise an inelastic price and you can earn more.</li>
+      </ol>
 
-    <div class="platform"><div class="crowd" id="crowd"></div></div>
-
-    <div class="tiles">
-      <div>Riders<b id="riders"></b></div>
-      <div>Revenue<b id="revenue"></b></div>
-      <div>Revenue vs $3<b id="change"></b></div>
+      <div class="note">
+        <h2>Chef's note</h2>
+        <p>This is why a bakery runs sales while a petrol station hardly needs to, and why airlines charge more close to departure.</p>
+        <p>Before changing any price, ask: <i>"If this cost more, what would my customers do instead?"</i></p>
+      </div>
     </div>
-
-    <p class="verdict" id="verdict"></p>
-    <p class="note">How much riders react to the fare is called <u>price elasticity</u>. Little reaction: inelastic. Big reaction: elastic.</p>
   </main>
-
-  <script src="../shared/sketch.js"></script>
-  <script>
-    // Illustrative demand: the usual fare is $3 and 60 of 100 potential riders pay it.
-    const USUAL = 3;
-    const FARES = [1, 2, 3, 4, 5, 6];
-    const lines = [
-      { css: "commute", name: "Line 1", label: "Commuters with no car", x: { p0: USUAL, base: 60, e: .3 }, why: "They need the bus to get to work, so most keep riding." },
-      { css: "short", name: "Line 2", label: "Short trips people could walk", x: { p0: USUAL, base: 60, e: 2.5 }, why: "They can just walk, so many skip the bus." },
-    ];
-    let line = lines[0], fare = USUAL;
-
-    $("lines").innerHTML = lines.map((l, i) => `<button class="${l.css}" data-i="${i}">${l.name}<small>${l.label}</small></button>`).join("");
-    $("route").innerHTML = FARES.map(f => `<button class="stop" data-fare="${f}" aria-label="Fare $${f}">$${f}</button>`).join("");
-
-    function render() {
-      const riders = sold(line.x, fare), usual = sold(line.x, USUAL);
-      const revenue = fare * riders, change = revenue / (USUAL * usual) - 1;
-      $("app").className = line.css;
-      [...$("lines").children].forEach((b, i) => b.classList.toggle("on", lines[i] === line));
-      [...$("route").children].forEach(b => b.classList.toggle("on", +b.dataset.fare === fare));
-      $("fareLabel").textContent = `Fare: ${money(fare)}`;
-      $("crowd").innerHTML = `🚌 ${crowd(riders, usual)}`;
-      $("riders").textContent = riders;
-      $("revenue").textContent = money(revenue);
-      $("change").textContent = percent(change);
-      $("verdict").textContent = fare === USUAL
-        ? `The usual fare is ${money(USUAL)}. Pick another stop to see how riders react.`
-        : `Fare ${fare > USUAL ? "up" : "down"} to ${money(fare)}: riders ${percent(riders / usual - 1)}, revenue ${percent(change)}. ${line.why}`;
-    }
-
-    $("lines").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { line = lines[b.dataset.i]; render(); } });
-    $("route").addEventListener("click", e => { if (e.target.dataset.fare) { fare = +e.target.dataset.fare; render(); } });
-    render();
-  </script>
 </body>
 </html>
