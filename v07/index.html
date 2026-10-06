@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Price and Demand</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #fff; color: #111; font: 1rem/1.45 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.5rem; max-width: 72rem; margin: 0 auto; padding: 1.5rem; }
+    a { color: #e30613; font-weight: 700; text-decoration: none; }
+    header { grid-column: 1 / -1; display: flex; justify-content: space-between; border-bottom: 3px solid #111; padding-bottom: .5rem; }
+    h1 { grid-column: 1 / 8; font-size: clamp(2.5rem, 7vw, 5.5rem); line-height: .95; letter-spacing: -.04em; margin: 2rem 0 0; }
+    .lead { grid-column: 9 / -1; align-self: end; margin: 0; }
+    figure { grid-column: 1 / -1; margin: 1rem 0; border-top: 3px solid #111; padding-top: .5rem; }
+    figcaption { display: flex; justify-content: space-between; font-size: .85rem; }
+    svg { width: 100%; height: auto; display: block; }
+    svg text { font: 12px Helvetica, Arial, sans-serif; }
+    .elastic { grid-column: 1 / 5; } .inelastic { grid-column: 5 / 9; } .why { grid-column: 9 / -1; }
+    .num { font-size: 4.5rem; font-weight: 700; line-height: 1; color: #e30613; letter-spacing: -.05em; }
+    h2 { font-size: 1rem; margin: .5rem 0 .25rem; text-transform: uppercase; letter-spacing: .08em; border-top: 1px solid #111; padding-top: .5rem; }
+    p { margin: 0; }
+    @media (max-width: 50rem) { h1, .lead, .elastic, .inelastic, .why { grid-column: 1 / -1; } }
+  </style>
+</head>
+<body>
+  <div class="grid">
+    <header><a href="../index.html">← Gallery</a><span>Price elasticity / 01</span></header>
+
+    <h1>What does a price change do?</h1>
+    <p class="lead">Buyers react to price. How much they react is called <b>elasticity</b>. The two lines below show the same price rise hitting two different products.</p>
+
+    <figure>
+      <svg viewBox="0 0 400 290" role="img" aria-label="Demand lines: the same price rise cuts demand slightly for an inelastic product and sharply for an elastic one">
+        <path d="M40 20V260H380" fill="none" stroke="#111" stroke-width="2"/>
+        <text x="46" y="14">Price</text><text x="350" y="278">Units sold</text>
+        <path d="M40 100H380M40 150H380" stroke="#111" stroke-dasharray="3 4"/>
+        <text x="4" y="104">$12</text><text x="4" y="154">$10</text>
+        <path d="M200 30L240 250" stroke="#111" stroke-width="4" fill="none"/>
+        <path d="M76 30L340 250" stroke="#e30613" stroke-width="4" fill="none"/>
+        <circle cx="220" cy="150" r="5"/><circle cx="213" cy="100" r="5"/>
+        <circle cx="160" cy="100" r="5" fill="#e30613"/>
+        <text x="250" y="230">Inelastic (petrol)</text>
+        <text x="300" y="196" fill="#e30613">Elastic (cake)</text>
+        <text x="250" y="90">+20% price: petrol buyers stay,</text><text x="250" y="105">cake buyers leave.</text>
+      </svg>
+      <figcaption><span>Demand lines for two products, same price rise</span><span>Illustrative</span></figcaption>
+    </figure>
+
+    <section class="elastic"><div class="num">Big</div><h2>Elastic</h2><p>Buyers react a lot. Easy to skip or swap, so a price rise can lower total income.</p></section>
+    <section class="inelastic"><div class="num">Small</div><h2>Inelastic</h2><p>Buyers barely react. Hard to do without, so a price rise can raise total income.</p></section>
+    <section class="why"><div class="num">3</div><h2>Reasons</h2><p>Substitutes, necessity and share of budget decide which kind a product is.</p></section>
+  </div>
+</body>
+</html>
