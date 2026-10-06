@@ -6,8 +6,13 @@
   <title>Price Elasticity: 25 Landing Page Versions</title>
   <style>
     body { font: 1rem/1.5 system-ui, sans-serif; max-width: 70rem; margin: 0 auto; padding: 2rem 1rem; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: 1rem; }
-    .grid:empty::before { content: "No versions yet."; color: #666; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, 300px); gap: 1.5rem; }
+    .card { color: inherit; text-decoration: none; border: 1px solid #ccc; border-radius: 6px; overflow: hidden; }
+    .card:hover { border-color: #000; }
+    .thumb { width: 300px; height: 200px; overflow: hidden; border-bottom: 1px solid #ccc; }
+    .thumb iframe { width: 1200px; height: 800px; border: 0; transform: scale(.25); transform-origin: 0 0; pointer-events: none; }
+    .card p { margin: 0; padding: .75rem; }
+    .card b { display: block; }
   </style>
 </head>
 <body>
@@ -27,5 +32,18 @@
       <p>Coming once the versions are built: which one won, and the story of how we got there.</p>
     </section>
   </main>
+
+  <script>
+    // One line per version: add an entry here when a version is built.
+    const versions = [
+      ["v01", "Newspaper front page: serif columns and a headline-driven story."],
+    ];
+
+    document.getElementById("versions").innerHTML = versions.map(([id, note]) => `
+      <a class="card" href="${id}/index.html">
+        <div class="thumb"><iframe src="${id}/index.html" title="${id} preview" loading="lazy" tabindex="-1"></iframe></div>
+        <p><b>${id}</b>${note}</p>
+      </a>`).join("");
+  </script>
 </body>
 </html>
