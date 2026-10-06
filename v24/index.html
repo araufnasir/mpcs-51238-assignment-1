@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What does a price change actually do?</title>
+  <link rel="stylesheet" href="../shared/widgets.css">
+  <link rel="stylesheet" href="../shared/final.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar"><div class="wrap">
+    <a href="../index.html">← Gallery</a>
+    <nav><a href="#try">Try it</a><a href="#rise">+10%</a><a href="#why">Why</a><a href="#own">Your product</a><a href="#words">Words</a></nav>
+  </div></header>
+
+  <main class="wrap">
+    <div class="hero">
+      <h1>What does a price change actually do?</h1>
+      <p class="dek">When something costs more, people buy less. How much less depends on the product, and that difference is called price elasticity.</p>
+    </div>
+
+    <section id="try">
+      <h2>Try it: run a lemonade stand</h2>
+      <div class="card"><div id="stand"></div></div>
+      <p class="lesson" id="lesson" hidden>Same price rise, different reaction. That is <b>price elasticity</b>: how strongly buyers react to price.</p>
+    </section>
+
+    <section id="rise">
+      <h2>The same 10% rise, different results</h2>
+      <div class="card"><div id="riseTable"></div></div>
+      <p>Cake buyers can skip or swap, so many leave and income falls. Petrol buyers still need to drive, so most stay and income rises.</p>
+    </section>
+
+    <section id="why">
+      <h2>Why do some products react more?</h2>
+      <div class="cards">
+        <div class="card"><span class="icon">🔁</span><h3>Alternatives</h3><p>If something else will do, buyers switch quickly.</p></div>
+        <div class="card"><span class="icon">🏠</span><h3>Need or wish</h3><p>Needs hold up. Wishes get dropped when prices rise.</p></div>
+        <div class="card"><span class="icon">💰</span><h3>Size of the bite</h3><p>Big purchases make people shop around.</p></div>
+      </div>
+    </section>
+
+    <section id="own">
+      <h2>Try your own product</h2>
+      <div class="pg" id="lab"></div>
+    </section>
+
+    <section id="words">
+      <h2>Words in plain English</h2>
+      <div class="card"><dl>
+        <dt>Demand</dt><dd>How much of something people want to buy at a given price.</dd>
+        <dt>Price elasticity</dt><dd>How strongly demand reacts when the price changes.</dd>
+        <dt>Elastic</dt><dd>Buyers react a lot.</dd>
+        <dt>Inelastic</dt><dd>Buyers barely react.</dd>
+        <dt>Money in</dt><dd>Price times number sold (economists say revenue).</dd>
+      </dl></div>
+    </section>
+
+    <p class="takeaway">Before changing a price, ask: if this cost more, what would my customers do instead?</p>
+  </main>
+
+  <script src="../shared/sketch.js"></script>
+  <script src="../shared/widgets.js"></script>
+  <script>
+    mountStand($("stand"), ["festival", "rival"], { meter: true, onLesson: () => { $("lesson").hidden = false; } });
+    mountRise($("riseTable"), ["petrol", "cake"]);
+    mountPlayground($("lab"));
+  </script>
+</body>
+</html>

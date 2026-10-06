@@ -1,0 +1,37 @@
+/* The converged look used by v24 and v25: warm paper, deep green, lemon highlights. Solid colors only. */
+:root { --ink: #1d2a24; --paper: #fffdf7; --accent: #1f5f4a; --line: #1d2a24; --soft: #f3efe2; --lemon: #f5d547; --radius: 14px; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background-color: var(--soft); color: var(--ink); font: 1.05rem/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.wrap { max-width: 46rem; margin: 0 auto; padding: 0 1.25rem; }
+section { padding: 2rem 0; }
+
+.topbar { background-color: var(--ink); }
+.topbar .wrap { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-top: .6rem; padding-bottom: .6rem; }
+.topbar a { color: var(--lemon); font-weight: 700; text-decoration: none; }
+
+h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; line-height: 1.1; margin: 0 0 .5rem; }
+h1 { font-size: clamp(2.2rem, 7vw, 3.6rem); }
+h2 { font-size: clamp(1.5rem, 4.5vw, 2rem); }
+h3 { font-size: 1.2rem; }
+
+.card, .pg-controls, .pg-result { background-color: var(--paper); border: 2px solid var(--line); border-radius: var(--radius); padding: 1.25rem; }
+.card { box-shadow: 4px 4px 0 var(--line); }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 1rem; }
+.cards p { margin: 0; }
+.icon { display: block; font-size: 2rem; }
+.btn { display: inline-block; font: inherit; font-weight: 700; text-decoration: none; color: var(--ink); background-color: var(--lemon); border: 2px solid var(--line); border-radius: 2rem; padding: .55rem 1.4rem; box-shadow: 3px 3px 0 var(--line); }
+
+/* Widgets */
+.pill.on, .chip.on { background-color: var(--accent); border-color: var(--accent); color: var(--paper); }
+.price { font-family: Georgia, serif; color: var(--accent); font-size: clamp(2.6rem, 9vw, 4rem); line-height: 1; }
+.slider { height: 2.2rem; }
+.coach { background-color: var(--lemon); border: 2px solid var(--line); border-radius: var(--radius); padding: .7rem 1rem; font-weight: 700; }
+.lesson { background-color: var(--accent); color: var(--paper); border-radius: var(--radius); padding: 1rem 1.25rem; margin: 1rem 0 0; }
+.field { font-weight: 700; }
+.field b { float: right; color: var(--accent); }
+.whatif { background-color: var(--soft); border-radius: .6rem; padding: .6rem .9rem; }
+
+.takeaway { padding: 2rem 0 3rem; text-align: center; font: italic 400 clamp(1.5rem, 5vw, 2.2rem)/1.2 Georgia, "Times New Roman", serif; }

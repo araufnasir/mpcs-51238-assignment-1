@@ -1,0 +1,8 @@
+/* v24 extras on top of shared/final.css: jump links and glossary. */
+.topbar nav { display: flex; gap: 1rem; flex-wrap: wrap; font-size: .9rem; }
+.topbar nav a { font-weight: 600; }
+.hero { padding: 3rem 0 1rem; }
+.dek { font-size: 1.2rem; margin: 0; }
+dl { margin: 0; }
+dt { font-weight: 700; margin-top: .75rem; }
+dd { margin: 0; }
