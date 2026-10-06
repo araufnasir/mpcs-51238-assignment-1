@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whiteboard Lemonade Stand</title>
+  <link rel="stylesheet" href="../shared/sketch.css">
+</head>
+<body>
+  <main>
+    <a href="../index.html">← Gallery</a>
+    <h1>Run the lemonade stand</h1>
+    <p>You set the price. The crowd decides what happens. Each cup costs you $0.30. Chase the best possible profit.</p>
+
+    <div class="row" id="modes"></div>
+
+    <div class="note blue">
+      <p class="big" id="price"></p>
+      <input id="slider" type="range" min=".3" max="5" step=".1" value="1">
+      <div class="crowd" id="crowd"></div>
+      <div class="stats">
+        <div>Cups sold<b id="cups"></b></div>
+        <div>Revenue<b id="revenue"></b></div>
+        <div>Profit<b id="profit"></b></div>
+      </div>
+      <p id="best"></p>
+    </div>
+
+    <div class="note green">
+      <b id="tip"></b>
+      <p>How strongly buyers react to price is called <u>price elasticity</u>. Little reaction = inelastic. Big reaction = elastic.</p>
+    </div>
+  </main>
+
+  <script src="../shared/sketch.js"></script>
+  <script>
+    const modes = [PRODUCTS.festival, PRODUCTS.rival];
+    let current = modes[0];
+
+    $("modes").innerHTML = modes.map((m, i) => `<button class="btn" data-i="${i}">${m.name}</button>`).join("");
+
+    function render() {
+      const price = +$("slider").value;
+      const profit = profitAt(current, price);
+      const top = bestPrice(current, .3, 5);
+      $("price").textContent = `${money(price)} a cup`;
+      $("crowd").innerHTML = crowd(sold(current, price), sold(current, current.p0));
+      $("cups").textContent = sold(current, price);
+      $("revenue").textContent = money(price * sold(current, price));
+      $("profit").textContent = money(profit);
+      $("best").textContent = `Best possible: ${money(profitAt(current, top))} at ${money(top)}. You're at ${Math.max(0, Math.round(profit / profitAt(current, top) * 100))}%.`;
+      $("tip").textContent = current.blurb;
+      [...$("modes").children].forEach((b, i) => b.classList.toggle("on", modes[i] === current));
+    }
+
+    $("modes").addEventListener("click", e => { if (e.target.dataset.i) { current = modes[e.target.dataset.i]; render(); } });
+    $("slider").addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>

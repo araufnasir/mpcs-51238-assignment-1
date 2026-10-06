@@ -1,0 +1,25 @@
+/* Whiteboard-sketch skin shared by the convergence versions (v13+). */
+body { margin: 0; min-height: 100vh; color: #1f3fa0; font: 1.2rem/1.35 "Marker Felt", "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive;
+  background: #fafcff linear-gradient(#e6edf5 1px, #0000 1px) 0 0 / 32px 32px, linear-gradient(90deg, #e6edf5 1px, #0000 1px) 0 0 / 32px 32px; }
+main { max-width: 60rem; margin: 0 auto; padding: 1rem 1.5rem 4rem; }
+a { color: #d6342c; }
+h1 { font-size: clamp(2rem, 6vw, 3.4rem); line-height: 1.05; margin: .5rem 0; text-decoration: underline wavy #d6342c; text-underline-offset: .3em; }
+svg text { font: 17px "Marker Felt", "Bradley Hand", "Comic Sans MS", cursive; }
+.wobbly { filter: url(#wobble); }
+
+.note, .stats > div { border: 3px solid currentColor; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; padding: 1rem; margin: 0 0 1.25rem; background: #fafcffcc; }
+.note b { display: block; font-size: 1.4rem; }
+.note p { margin: 0 0 .5rem; }
+.red { color: #d6342c; } .green { color: #1d8a4a; } .blue { color: #1f3fa0; }
+
+.btn { font: inherit; color: #222; background: #fff; border: 3px solid #222; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; padding: .3rem 1rem; cursor: pointer; }
+.btn.on, .btn:hover { background: #fff176; }
+.row { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+input[type=range] { width: 100%; accent-color: #d6342c; }
+.big { font-size: 2.6rem; line-height: 1; margin: 0; color: #d6342c; }
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: .75rem; text-align: center; }
+.stats > div { margin: 0; padding: .5rem; color: #222; background: #fff; }
+.stats b { display: block; font-size: 1.6rem; color: #1f3fa0; }
+.crowd { font-size: 1.6rem; line-height: 1.2; min-height: 4.5rem; }
+.gone { opacity: .15; filter: grayscale(1); }
