@@ -1,0 +1,29 @@
+/* v22: price lab. Clean app UI: light gray page, white cards, blue accent, sticky controls. */
+:root { --ink: #0f172a; --paper: #fff; --accent: #2563eb; --line: #cbd5e1; --radius: .9rem; }
+body { margin: 0; background-color: #eef2f7; color: #0f172a; font: 1rem/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.top { background-color: #fff; border-bottom: 1px solid #cbd5e1; padding: .75rem 1.5rem; display: flex; justify-content: space-between; }
+.top a { color: #2563eb; font-weight: 600; }
+main { max-width: 62rem; margin: 0 auto; padding: 1.5rem; }
+h1 { font-size: clamp(1.8rem, 5vw, 2.6rem); margin: 0 0 .25rem; }
+.lead { color: #475569; margin: 0 0 1.5rem; max-width: 40rem; }
+
+.pg { grid-template-columns: 20rem 1fr; align-items: start; }
+.pg-controls { position: sticky; top: 1rem; background-color: #fff; border: 1px solid #cbd5e1; border-radius: .9rem; padding: 1.25rem; }
+.pg-result { background-color: #fff; border: 1px solid #cbd5e1; border-radius: .9rem; padding: 1.25rem; }
+.chip { border-width: 1px; border-color: #cbd5e1; }
+.chip.on { background-color: #2563eb; border-color: #2563eb; }
+.field { font-weight: 600; font-size: .9rem; color: #334155; }
+.field b { float: right; color: #2563eb; }
+.field input[type=number] { margin-left: .5rem; border-width: 1px; border-color: #cbd5e1; }
+.stats div { background-color: #f1f5f9; border: 0; }
+.meter { border-width: 0; background-color: #e2e8f0; }
+.whatif { padding: .75rem 1rem; background-color: #eff6ff; border-radius: .6rem; color: #1e3a8a; }
+.verdict { font-size: 1.1rem; }
+.crowd { background-color: #f8fafc; border-radius: .6rem; padding: .5rem; }
+
+.explain { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; margin-top: 2rem; }
+.explain div { background-color: #fff; border: 1px solid #cbd5e1; border-radius: .9rem; padding: 1rem 1.25rem; }
+.explain h2 { font-size: 1.05rem; margin: 0 0 .25rem; color: #2563eb; }
+.explain p { margin: 0; color: #475569; }
+
+@media (max-width: 52rem) { .pg { grid-template-columns: 1fr; } .pg-controls { position: static; } }
