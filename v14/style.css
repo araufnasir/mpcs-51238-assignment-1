@@ -1,6 +1,6 @@
 /* Blueprint: blue paper, white linework, dimension labels, title block. */
 body { margin: 0; min-height: 100vh; color: #fff; font: 500 .85rem/1.5 "Avenir Next Condensed", "Arial Narrow", Helvetica, sans-serif; text-transform: uppercase; letter-spacing: .1em;
-  background: #174a9c linear-gradient(#fff2 1px, #0000 1px) 0 0 / 100px 100px, linear-gradient(90deg, #fff2 1px, #0000 1px) 0 0 / 100px 100px; }
+  background: linear-gradient(#fff2 1px, #0000 1px) 0 0 / 100px 100px, linear-gradient(90deg, #fff2 1px, #0000 1px) 0 0 / 100px 100px, #174a9c; }
 body::before { content: ""; position: fixed; inset: 0; z-index: -1; background: linear-gradient(#fff1 1px, #0000 1px) 0 0 / 20px 20px, linear-gradient(90deg, #fff1 1px, #0000 1px) 0 0 / 20px 20px; }
 a { color: #fff; }
 
