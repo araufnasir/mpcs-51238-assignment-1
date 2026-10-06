@@ -1,0 +1,39 @@
+/* Café chalkboard: slate boards in a wooden frame, chalk type, menu with dotted leaders. */
+body { margin: 0; min-height: 100vh; background: #4a3020 repeating-linear-gradient(90deg, #0000 0 6px, #0002 6px 7px); color: #f4f1e6; font: 1.2rem/1.45 "Chalkduster", "Chalkboard SE", "Bradley Hand", cursive; }
+a { color: #ffd98a; }
+.frame { max-width: 62rem; margin: 1rem auto; padding: 1rem 1.5rem 2rem; border: 18px solid #8a5a35; border-radius: 6px; box-shadow: inset 0 0 40px #0008, 0 8px 24px #0008;
+  background: radial-gradient(ellipse at 30% 20%, #3b4540, #1e2522 80%); }
+.sign { text-align: center; margin: .5rem 0 1.5rem; }
+.sign h1 { font: italic 400 clamp(2.6rem, 8vw, 4.5rem)/1 "Snell Roundhand", "Brush Script MT", cursive; margin: 0; color: #fff; text-shadow: 0 0 4px #fff6; }
+.sign p { margin: .25rem 0 0; letter-spacing: .3em; text-transform: uppercase; font-size: .85rem; border-top: 2px solid #f4f1e6aa; border-bottom: 2px solid #f4f1e6aa; display: inline-block; padding: .2rem 1rem; }
+
+.boards { display: grid; grid-template-columns: 17rem 1fr; gap: 1.5rem; align-items: start; }
+.board { border: 3px solid #f4f1e6aa; border-radius: 4px; padding: 1.25rem; background: #ffffff08; }
+.board h2 { margin: 0 0 1rem; font: 700 1.3rem Georgia, serif; text-transform: uppercase; letter-spacing: .2em; text-align: center; border-bottom: 2px solid #f4f1e6aa; padding-bottom: .5rem; }
+
+#menu { list-style: none; margin: 0; padding: 0; }
+#menu li { display: flex; align-items: baseline; gap: .4rem; margin-bottom: .9rem; opacity: .45; }
+#menu li.now, #menu li.done { opacity: 1; }
+#menu li.now::before { content: "→"; color: #ffd98a; margin-left: -1rem; }
+#menu i { flex: 1; border-bottom: 3px dotted #f4f1e6aa; }
+#menu small { display: block; font-size: .8rem; }
+
+#stage b { display: block; font: 700 1.5rem Georgia, serif; margin-bottom: .5rem; color: #ffd98a; }
+#stage p { margin: 0 0 1rem; }
+#stage .big { font-size: 3rem; color: #fff; }
+#stage .stats { display: flex; gap: 2.5rem; margin: 1rem 0; }
+#stage .stats div { border-bottom: 3px dotted #f4f1e6aa; padding-bottom: .2rem; }
+#stage .stats b { color: #fff; font: inherit; font-size: 2rem; margin: 0; }
+.crowd { font-size: 1.8rem; line-height: 1.2; min-height: 4rem; filter: grayscale(1) brightness(1.5) drop-shadow(0 0 2px #fff8); }
+.gone { opacity: .15; }
+
+.btn { font: inherit; color: #f4f1e6; background: none; border: 3px solid #f4f1e6; border-radius: 3rem 1rem 3rem 1rem; padding: .3rem 1.5rem; cursor: pointer; }
+.btn:hover { background: #f4f1e622; }
+
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 2rem; margin: 0 0 1rem; background: none; }
+input[type=range]::-webkit-slider-runnable-track { height: 0; border-top: 3px dashed #f4f1e6aa; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: -15px; background: #ffd98a22; border: 3px solid #ffd98a; border-radius: 50%; }
+input[type=range]::-moz-range-track { height: 0; border-top: 3px dashed #f4f1e6aa; }
+input[type=range]::-moz-range-thumb { width: 22px; height: 22px; background: #ffd98a22; border: 3px solid #ffd98a; border-radius: 50%; }
+
+@media (max-width: 50rem) { .boards { grid-template-columns: 1fr; } }

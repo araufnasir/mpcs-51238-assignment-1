@@ -3,51 +3,62 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A Story About a Lemonade Price</title>
-  <link rel="stylesheet" href="../shared/sketch.css">
+  <title>The Lemonade Café: a Story in Two Courses</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
+  <div class="frame">
     <a href="../index.html">← Gallery</a>
-    <h1>A lemonade story in two chapters</h1>
-    <div class="note blue" id="stage"></div>
-  </main>
+    <header class="sign"><h1>The Lemonade Café</h1><p>A story about prices, in two courses</p></header>
+    <div class="boards">
+      <aside class="board"><h2>Menu</h2><ul id="menu"></ul></aside>
+      <section class="board" id="stage"></section>
+    </div>
+  </div>
 
   <script src="../shared/sketch.js"></script>
   <script>
     const chapters = [
-      { x: PRODUCTS.festival, title: "Chapter 1: The festival", text: "It's a hot day at a music festival and yours is the only lemonade stand. Each cup costs you $0.30 to make. What do you charge?" },
-      { x: PRODUCTS.rival, title: "Chapter 2: A rival arrives", text: "Next day, another stand opens ten steps away, selling the same lemonade. Same cost. What do you charge now?" },
+      { x: PRODUCTS.festival, course: "First course: the festival", title: "The festival", text: "It's a hot day at a music festival and yours is the only lemonade stand. Each cup costs you $0.30 to make. What do you charge?" },
+      { x: PRODUCTS.rival, course: "Second course: a rival", title: "A rival arrives", text: "Next day, another stand opens ten steps away, selling the same lemonade. Same cost. What do you charge now?" },
     ];
     let step = 0, phase = "set", price = 1;
     const results = [];
 
-    function view() {
+    function menu() {
+      const items = chapters.map((c, i) => {
+        const state = i < results.length ? "done" : i === step ? "now" : "";
+        return `<li class="${state}"><span>${c.course}</span><i></i><span>${results[i] ? money(results[i].profit) : "…"}</span></li>`;
+      });
+      items.push(`<li class="${step === chapters.length ? "now" : ""}"><span>Dessert: what it means</span><i></i><span>${step === chapters.length ? "✓" : "…"}</span></li>`);
+      return items.join("");
+    }
+
+    function stage() {
       if (step === chapters.length) return summary();
-      const { x, title, text } = chapters[step];
-      const header = `<b>${title}</b>`;
+      const { x, course, text } = chapters[step];
       if (phase === "set") {
-        return `${header}<p>${text}</p>
+        return `<b>${course}</b><p>${text}</p>
           <p class="big" id="price">${money(price)} a cup</p>
-          <input id="slider" type="range" min=".3" max="5" step=".1" value="${price}">
+          <input id="slider" type="range" min=".3" max="5" step=".1" value="${price}" aria-label="Price">
           <button class="btn" id="go">Open for business</button>`;
       }
-      const cups = sold(x, price), profit = profitAt(x, price), top = bestPrice(x, .3, 5);
-      return `${header}<div class="crowd">${crowd(cups, sold(x, x.p0))}</div>
-        <div class="stats"><div>Cups sold<b>${cups}</b></div><div>Profit<b>${money(profit)}</b></div></div>
+      const cups = sold(x, price), top = bestPrice(x, .3, 5);
+      return `<b>${course}</b><div class="crowd">${crowd(cups, sold(x, x.p0))}</div>
+        <div class="stats"><div>Cups sold<b>${cups}</b></div><div>Profit<b>${money(profitAt(x, price))}</b></div></div>
         <p>${x.blurb} The best price was about ${money(top)}, which would have made ${money(profitAt(x, top))}.</p>
-        <button class="btn" id="next">${step + 1 < chapters.length ? "Next chapter →" : "What did that show? →"}</button>`;
+        <button class="btn" id="next">${step + 1 < chapters.length ? "Next course →" : "What did that show? →"}</button>`;
     }
 
     function summary() {
       const rows = results.map((r, i) => `<p>${chapters[i].title}: you charged ${money(r.price)} and made ${money(r.profit)}.</p>`).join("");
-      return `<b>What just happened</b>${rows}
+      return `<b>What it means</b>${rows}
         <p>Same lemonade, same cost. The only thing that changed was how easily buyers could go elsewhere. With no rival, buyers barely react to price: <u>inelastic</u>, so a higher price pays. With a rival, they react strongly: <u>elastic</u>, so a high price empties your queue.</p>
         <p>Before changing a price, ask: "If this cost more, what would my customers do instead?"</p>
-        <button class="btn" id="again">Play again</button>`;
+        <button class="btn" id="again">Order again</button>`;
     }
 
-    function render() { $("stage").innerHTML = view(); }
+    function render() { $("menu").innerHTML = menu(); $("stage").innerHTML = stage(); }
 
     $("stage").addEventListener("input", e => { price = +e.target.value; $("price").textContent = `${money(price)} a cup`; });
     $("stage").addEventListener("click", e => {
