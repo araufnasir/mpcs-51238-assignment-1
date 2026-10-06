@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Petrol vs Cake: Same Price Rise</title>
+  <link rel="stylesheet" href="../shared/sketch.css">
+  <style>
+    .versus { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .versus .stats { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 40rem) { .versus { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="../index.html">← Gallery</a>
+    <h1>Same price change. Different reaction.</h1>
+    <p>One slider moves the price of both. Watch who stays.</p>
+
+    <div class="note blue">
+      <p class="big" id="pct"></p>
+      <input id="slider" type="range" min="-30" max="30" value="10">
+    </div>
+
+    <div class="versus" id="versus"></div>
+
+    <div class="note green">
+      <b>That gap is price elasticity.</b>
+      <p>Petrol is <u>inelastic</u>: few alternatives, a need, so buyers barely react and revenue rises. Cake is <u>elastic</u>: easy to skip, so buyers leave and revenue falls.</p>
+    </div>
+  </main>
+
+  <script src="../shared/sketch.js"></script>
+  <script>
+    const pair = [[PRODUCTS.petrol, "red"], [PRODUCTS.cake, "blue"]];
+
+    function render() {
+      const change = $("slider").value / 100;
+      $("pct").textContent = `Price ${percent(change)}`;
+      $("versus").innerHTML = pair.map(([x, color]) => {
+        const price = x.p0 * (1 + change), now = sold(x, price), before = sold(x, x.p0);
+        return `<div class="note ${color}">
+          <b>${x.name}</b>
+          <p>${x.blurb}</p>
+          <div class="crowd">${crowd(now, before)}</div>
+          <div class="stats">
+            <div>Buyers<b>${percent(now / before - 1)}</b></div>
+            <div>Revenue<b>${percent(price * now / (x.p0 * before) - 1)}</b></div>
+          </div>
+        </div>`;
+      }).join("");
+    }
+
+    $("slider").addEventListener("input", render);
+    render();
+  </script>
+</body>
+</html>
