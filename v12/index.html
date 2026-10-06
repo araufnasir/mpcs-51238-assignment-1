@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Whiteboard: Price and Demand</title>
+  <style>
+    body { margin: 0; min-height: 100vh; background: #fafcff; background-image: linear-gradient(#e6edf5 1px, #0000 1px), linear-gradient(90deg, #e6edf5 1px, #0000 1px); background-size: 32px 32px;
+      color: #1f3fa0; font: 1.3rem/1.35 "Marker Felt", "Bradley Hand", "Segoe Print", "Comic Sans MS", cursive; }
+    main { max-width: 60rem; margin: 0 auto; padding: 1rem 1.5rem 4rem; }
+    a { color: #d6342c; }
+    h1 { font-size: clamp(2.2rem, 6vw, 3.8rem); line-height: 1.05; margin: .5rem 0; text-decoration: underline wavy #d6342c; text-underline-offset: .3em; }
+    .wobbly { filter: url(#wobble); }
+    .board { display: grid; grid-template-columns: 3fr 2fr; gap: 1.5rem; align-items: start; }
+    svg.chart { width: 100%; height: auto; }
+    svg text { font: 17px "Marker Felt", "Bradley Hand", "Comic Sans MS", cursive; }
+    .note { padding: 1rem; margin: 0 0 1.25rem; border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px; border: 3px solid currentColor; }
+    .red { color: #d6342c; transform: rotate(1.5deg); } .green { color: #1d8a4a; transform: rotate(-1.5deg); } .blue { color: #1f3fa0; }
+    .note b { display: block; font-size: 1.5rem; }
+    .note p { margin: 0; }
+    .final { text-align: center; font-size: 1.6rem; margin-top: 1rem; }
+    .final span { background: #fff176; padding: .2rem .8rem; transform: rotate(-1deg); display: inline-block; }
+    @media (max-width: 45rem) { .board { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" aria-hidden="true"><filter id="wobble"><feTurbulence baseFrequency=".03" numOctaves="2" seed="3"/><feDisplacementMap in="SourceGraphic" scale="4"/></filter></svg>
+  <main>
+    <a href="../index.html">← Gallery</a>
+    <h1>What does a price change do?</h1>
+
+    <div class="board">
+      <svg class="chart" viewBox="0 0 500 340" role="img" aria-label="Hand-drawn demand curve: higher price, fewer units sold">
+        <g class="wobbly" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="4">
+          <path d="M50 20V290H470" stroke="#222"/>
+          <path d="M44 32L50 20L56 32M458 284L470 290L458 296" stroke="#222"/>
+          <path d="M70 50C100 200 250 260 450 275" stroke="#1f3fa0" stroke-width="6"/>
+          <path d="M128 162H50M128 162V290M238 232H50M238 232V290" stroke="#d6342c" stroke-width="3" stroke-dasharray="2 9"/>
+          <circle cx="128" cy="162" r="9" stroke="#d6342c"/><circle cx="238" cy="232" r="9" stroke="#d6342c"/>
+          <path d="M150 115L200 80M200 80L180 83M200 80L196 100" stroke="#1d8a4a"/>
+        </g>
+        <text x="60" y="14" fill="#222">Price</text>
+        <text x="400" y="320" fill="#222">Units sold</text>
+        <text x="20" y="164" fill="#d6342c">$$</text>
+        <text x="20" y="234" fill="#d6342c">$</text>
+        <text x="206" y="74" fill="#1d8a4a">price up</text>
+        <text x="260" y="150" fill="#1f3fa0">demand curve</text>
+        <text x="260" y="172" fill="#1f3fa0">(buyers' reaction)</text>
+      </svg>
+
+      <div>
+        <div class="note blue"><b>1. Price up, buyers down.</b><p>Slide up the curve and fewer people buy.</p></div>
+        <div class="note red"><b>2. How steep?</b><p>Steep curve = <u>inelastic</u>: buyers barely react (petrol). Flat curve = <u>elastic</u>: buyers bolt (cake).</p></div>
+        <div class="note green"><b>3. Why?</b><p>Substitutes, need vs. want, and share of budget.</p></div>
+      </div>
+    </div>
+
+    <p class="final"><span>Before changing a price, ask: "What would my customers do instead?"</span></p>
+  </main>
+</body>
+</html>
