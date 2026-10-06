@@ -1,10 +1,12 @@
 /* Blueprint: blue paper, white linework, dimension labels, title block. */
-body { margin: 0; min-height: 100vh; color: #fff; font: 500 .85rem/1.5 "Avenir Next Condensed", "Arial Narrow", Helvetica, sans-serif; text-transform: uppercase; letter-spacing: .1em;
-  background: linear-gradient(#fff2 1px, #0000 1px) 0 0 / 100px 100px, linear-gradient(90deg, #fff2 1px, #0000 1px) 0 0 / 100px 100px, #174a9c; }
-body::before { content: ""; position: fixed; inset: 0; z-index: -1; background: linear-gradient(#fff1 1px, #0000 1px) 0 0 / 20px 20px, linear-gradient(90deg, #fff1 1px, #0000 1px) 0 0 / 20px 20px; }
+body { margin: 0; min-height: 100vh; color: #fff; font: 500 .85rem/1.5 "Avenir Next Condensed", "Arial Narrow", Helvetica, sans-serif; text-transform: uppercase; letter-spacing: .1em; }
+html, body { background-color: #174a9c; }
+body::before { content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background: linear-gradient(#fff2 1px, #0000 1px) 0 0 / 100px 100px, linear-gradient(90deg, #fff2 1px, #0000 1px) 0 0 / 100px 100px,
+    linear-gradient(#fff1 1px, #0000 1px) 0 0 / 20px 20px, linear-gradient(90deg, #fff1 1px, #0000 1px) 0 0 / 20px 20px; }
 a { color: #fff; }
 
-.sheet { margin: 1rem; border: 2px solid #fff; outline: 1px solid #fff; outline-offset: 5px; display: grid; grid-template-columns: 1fr 15rem; }
+.sheet { position: relative; z-index: 1; margin: 1rem; border: 2px solid #fff; outline: 1px solid #fff; outline-offset: 5px; display: grid; grid-template-columns: 1fr 15rem; }
 .head { grid-column: 1 / -1; display: flex; justify-content: space-between; padding: .4rem .75rem; border-bottom: 1px solid #fff; }
 h1 { font-size: 1.1rem; margin: 0; font-weight: 700; }
 
