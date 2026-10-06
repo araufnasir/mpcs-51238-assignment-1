@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What does a price change actually do? A story</title>
+  <link rel="stylesheet" href="../shared/widgets.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <a class="back" href="../index.html">← Gallery</a>
+    <p class="kicker">A short story about prices</p>
+    <h1>What does a price change actually do?</h1>
+    <p class="dek">Raise a price and people buy less. The surprise is how much less, and why it differs. Follow one lemonade stand through two days.</p>
+
+    <section class="scene">
+      <span class="num">1</span>
+      <h2>A hot day, one stand</h2>
+      <p>It is the day of a music festival and yours is the only lemonade stand for a mile. Each cup costs you $0.30 to make. What do you charge? Drag the price and see.</p>
+      <div class="tool" data-product="festival"></div>
+      <p>Notice that raising the price loses only a few customers. People are thirsty and have nowhere else to go.</p>
+    </section>
+
+    <section class="scene">
+      <span class="num">2</span>
+      <h2>A rival moves in</h2>
+      <p>The next day another stand opens ten steps away, selling the same lemonade at the same cost. Now try the same price rise.</p>
+      <div class="tool" data-product="rival"></div>
+      <p>This time the same rise empties your queue. Buyers just walk next door.</p>
+    </section>
+
+    <section class="meaning">
+      <h2>What it means</h2>
+      <p>How strongly buyers react to a price change has a name: <b>price elasticity</b>. When buyers react a lot, as with your rival next door, demand is <b>elastic</b>. When they hardly react, as at the festival, it is <b>inelastic</b>.</p>
+      <p>Three things usually decide it: whether there is something else to buy, whether it is a need or a wish, and how big a bite it takes from the budget.</p>
+      <p>That is why raising an elastic price can lower your income, and raising an inelastic one can lift it.</p>
+      <p class="takeaway">Before changing a price, ask: if this cost more, what would my customers do instead?</p>
+    </section>
+  </main>
+
+  <script src="../shared/sketch.js"></script>
+  <script src="../shared/widgets.js"></script>
+  <script>document.querySelectorAll(".tool").forEach(t => mountStand(t, [t.dataset.product], { meter: true }));</script>
+</body>
+</html>
