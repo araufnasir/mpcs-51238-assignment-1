@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What does a price change actually do?</title>
+  <meta name="description" content="A one-minute, plain-language guide to price elasticity, with a lemonade stand you can play with.">
+  <link rel="stylesheet" href="../shared/widgets.css">
+  <link rel="stylesheet" href="../shared/final.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#try">Skip to the demo</a>
+  <header class="topbar"><div class="wrap"><a href="../index.html">← Gallery</a><span style="color:#fffdf7">Final choice</span></div></header>
+
+  <main>
+    <div class="hero"><div class="wrap">
+      <p class="kicker">A one-minute guide</p>
+      <h1>What does a price change actually do?</h1>
+      <p class="answer">When something costs more, people buy less. How much less depends on the product, and that difference has a name: <b>price elasticity</b>.</p>
+      <a class="btn" href="#try">Try it ↓</a>
+    </div></div>
+
+    <div class="wrap">
+      <section id="try" aria-labelledby="h-try">
+        <h2 id="h-try"><span class="step" aria-hidden="true">1</span>Run a lemonade stand</h2>
+        <p class="how">Pick a situation, drag the price up, then switch to the other one.</p>
+        <noscript><p class="coach">The lemonade demo needs JavaScript. The explanation below works without it.</p></noscript>
+        <div class="card"><div id="stand"></div></div>
+        <div aria-live="polite"><p class="lesson" id="lesson" hidden>Same price rise, different reaction. How strongly buyers react to price is <b>price elasticity</b>. A big reaction (rival next door) is <b>elastic</b>. A small one (only stand at the festival) is <b>inelastic</b>.</p></div>
+      </section>
+
+      <section aria-labelledby="h-why">
+        <h2 id="h-why"><span class="step" aria-hidden="true">2</span>Why do some products react more?</h2>
+        <div class="cards">
+          <div class="card"><span class="icon" aria-hidden="true">🔁</span><h3>Alternatives</h3><p>If something else will do, buyers switch quickly.</p></div>
+          <div class="card"><span class="icon" aria-hidden="true">🏠</span><h3>Need or wish</h3><p>Needs hold up. Wishes get dropped when prices rise.</p></div>
+          <div class="card"><span class="icon" aria-hidden="true">💰</span><h3>Size of the bite</h3><p>Big purchases make people shop around.</p></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="h-matters">
+        <h2 id="h-matters"><span class="step" aria-hidden="true">3</span>Why it matters</h2>
+        <div class="card"><div id="riseTable"></div></div>
+        <p>Raise an elastic price and you can earn less. Raise an inelastic price and you can earn more. Knowing which one you have is the difference between a smart price rise and an expensive mistake.</p>
+      </section>
+
+      <section>
+        <details>
+          <summary>Optional: try your own product</summary>
+          <div class="pg" id="lab"></div>
+        </details>
+      </section>
+
+      <p class="takeaway">Before changing a price, ask: if this cost more, what would my customers do instead?</p>
+      <p class="fine">Numbers on this page are simplified and illustrative, not real market data.</p>
+    </div>
+  </main>
+
+  <script src="../shared/sketch.js"></script>
+  <script src="../shared/widgets.js"></script>
+  <script>
+    mountStand($("stand"), ["festival", "rival"], { meter: true, onLesson: () => { $("lesson").hidden = false; } });
+    mountRise($("riseTable"), ["petrol", "cake"]);
+    mountPlayground($("lab"));
+  </script>
+</body>
+</html>

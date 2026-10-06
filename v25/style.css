@@ -1,0 +1,18 @@
+/* v25 extras on top of shared/final.css: lemon hero, numbered steps, collapsible lab, skip link. */
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 1rem; top: 1rem; z-index: 2; background-color: var(--paper); padding: .5rem 1rem; }
+
+.hero { background-color: var(--lemon); border-bottom: 2px solid var(--line); padding: 3rem 0 2.5rem; }
+.kicker { margin: 0 0 .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; font-size: .8rem; }
+.answer { font-size: 1.3rem; margin: 0 0 1.5rem; max-width: 36rem; }
+.hero .btn { background-color: var(--ink); color: var(--lemon); box-shadow: none; }
+
+.step { display: inline-grid; place-items: center; width: 2rem; height: 2rem; margin-right: .5rem; border-radius: 50%; background-color: var(--ink); color: var(--lemon); font: 700 1rem Helvetica, Arial, sans-serif; vertical-align: .15em; }
+.how { margin: 0 0 1rem; }
+
+details { background-color: var(--paper); border: 2px solid var(--line); border-radius: var(--radius); padding: 1rem 1.25rem; }
+summary { cursor: pointer; font: 700 1.2rem Georgia, "Times New Roman", serif; }
+details[open] summary { margin-bottom: 1rem; }
+details .pg-controls, details .pg-result { border-width: 1px; }
+
+.fine { text-align: center; font-size: .85rem; color: #4b5a52; padding-bottom: 2rem; }
